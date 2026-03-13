@@ -10,16 +10,10 @@ public class Main {
         AsyncJobQueue queue =
                 new AsyncJobQueue(3, 2);
 
-        queue.submit(new Job("job1", () -> {
-            System.out.println("Running job1");
-        }));
+        queue.submit(new Job("job1", () -> {System.out.println("Running job1");}));
 
-        queue.submit(new Job("job2", () -> {
-            throw new RuntimeException("failure");
-        }));
+        queue.submit(new Job("job2", () -> {throw new RuntimeException("failure");}));
 
-        queue.submit(new Job("job3", () -> {
-            System.out.println("Running job3");
-        }));
+        queue.submit(new Job("job3", () -> {System.out.println("Running job3");}));
     }
 }
