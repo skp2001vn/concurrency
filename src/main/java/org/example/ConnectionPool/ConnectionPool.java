@@ -33,47 +33,32 @@ public class ConnectionPool {
         long nanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
 
         lock.lock();
-
         try {
-
             if (waitingThreads >= maxWaitingThreads) {
                 throw new RuntimeException("Too many waiting threads");
             }
-
             waitingThreads++;
-
             try {
-
                 while (pool.isEmpty()) {
-
                     if (nanos <= 0) {
                         return null;
                     }
-
                     nanos = notEmpty.awaitNanos(nanos);
                 }
-
                 return pool.poll();
-
             } finally {
                 waitingThreads--;
             }
-
         } finally {
             lock.unlock();
         }
     }
 
     public void release(Connection conn) {
-
         lock.lock();
-
         try {
-
             pool.offer(conn);
-
             notEmpty.signal();
-
         } finally {
             lock.unlock();
         }
