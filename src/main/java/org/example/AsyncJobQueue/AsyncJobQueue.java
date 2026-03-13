@@ -7,11 +7,9 @@ import java.util.concurrent.*;
  */
 public class AsyncJobQueue {
 
-    private final BlockingQueue<Job> jobQueue =
-            new LinkedBlockingQueue<>();
+    private final BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>();
 
-    private final BlockingQueue<Job> deadLetterQueue =
-            new LinkedBlockingQueue<>();
+    private final BlockingQueue<Job> deadLetterQueue = new LinkedBlockingQueue<>();
 
     private final ExecutorService workers;
 
