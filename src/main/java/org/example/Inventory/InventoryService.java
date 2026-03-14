@@ -10,6 +10,7 @@ public class InventoryService {
 
     public void addProduct(String productId, int quantity) {
         inventory.put(productId, quantity);
+        //can use one global lock, but using one lock per productId (fine-grained locking) allows much better parallelism.
         locks.put(productId, new ReentrantLock());
     }
 
