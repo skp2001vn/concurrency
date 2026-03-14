@@ -1,17 +1,27 @@
 package org.example.AsyncJobQueue;
 
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.*;
 
 /**
- * an async job queue with a fixed thread pool, retry logic, and a dead-letter queue for failed jobs.
+ * Async job queue with:
+ * - fixed worker pool
+ * - retry logic
+ * - dead-letter queue
+ * - explicit locking using ReentrantLock
  */
 public class AsyncJobQueue {
 
-    private final BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>();
-    private final BlockingQueue<Job> deadLetterQueue = new LinkedBlockingQueue<>();
-    private final ExecutorService workers;
+    private final Queue<Job> jobQueue = new LinkedList<>();
+    private final Queue<Job> deadLetterQueue = new LinkedList<>();
 
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Condition notEmpty = lock.newCondition();
+
+    private final ExecutorService workers;
     private final int maxRetries;
+    private volatile boolean running = true;
 
     public AsyncJobQueue(int workerCount, int maxRetries) {
         this.maxRetries = maxRetries;
@@ -23,34 +33,57 @@ public class AsyncJobQueue {
     }
 
     public void submit(Job job) {
-        jobQueue.offer(job);
+        lock.lock();
+        try {
+            jobQueue.offer(job);
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private Job takeJob() throws InterruptedException {
+        lock.lock();
+        try {
+            while (jobQueue.isEmpty() && running) {
+                notEmpty.await();
+            }
+            return jobQueue.poll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void moveToDLQ(Job job) {
+        lock.lock();
+        try {
+            deadLetterQueue.offer(job);
+        } finally {
+            lock.unlock();
+        }
     }
 
     private void workerLoop() {
-        while (true) {
+        while (running) {
             try {
-                Job job = jobQueue.take();
+                Job job = takeJob();
+                if (job == null)
+                    continue;
+
                 try {
                     job.getTask().run();
-                    System.out.println(
-                            "Job success: " + job.getId()
-                    );
+                    System.out.println("Job success: " + job.getId());
                 } catch (Exception e) {
                     job.incrementRetry();
                     if (job.getRetries() <= maxRetries) {
-                        System.out.println(
-                                "Retry job: " + job.getId()
-                        );
-
-                        jobQueue.offer(job);
+                        System.out.println("Retry job: " + job.getId());
+                        submit(job);
                     } else {
-                        System.out.println(
-                                "Job moved to DLQ: " + job.getId()
-                        );
-
-                        deadLetterQueue.offer(job);
+                        System.out.println("Job moved to DLQ: " + job.getId());
+                        moveToDLQ(job);
                     }
                 }
+
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -58,12 +91,25 @@ public class AsyncJobQueue {
         }
     }
 
-    public BlockingQueue<Job> getDeadLetterQueue() {
-        return deadLetterQueue;
+    public List<Job> getDeadLetterQueue() {
+        lock.lock();
+        try {
+            return new ArrayList<>(deadLetterQueue);
+        } finally {
+            lock.unlock();
+        }
     }
 
     public void shutdown() {
+        running = false;
+
+        lock.lock();
+        try {
+            notEmpty.signalAll();
+        } finally {
+            lock.unlock();
+        }
+
         workers.shutdownNow();
     }
 }
-
