@@ -25,10 +25,10 @@ public class ReentrantLockRateLimiter {
         long now = System.currentTimeMillis();
 
         RateLimitState state = requestLog.computeIfAbsent(userId, id -> new RateLimitState());
-
         state.lock.lock();
         try {
-            while (!state.timestamps.isEmpty() && now - state.timestamps.peekFirst() > windowSizeInMillis) {
+            while (!state.timestamps.isEmpty()
+                    && now - state.timestamps.peekFirst() > windowSizeInMillis) {
                 state.timestamps.pollFirst();
             }
 
