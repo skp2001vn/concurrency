@@ -51,7 +51,6 @@ public class AsyncJobQueue {
                         deadLetterQueue.offer(job);
                     }
                 }
-
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;

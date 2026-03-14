@@ -79,7 +79,6 @@ public class LRUCacheTTL<K, V> {
                 Node removed = removeTail();
                 cache.remove(removed.key);
             }
-
         } finally {
             lock.unlock();
         }

@@ -36,7 +36,6 @@ public class SimpleCyclicBarrier {
             while (currentGeneration == generation) {
                 trip.await();
             }
-
         } finally {
             lock.unlock();
         }

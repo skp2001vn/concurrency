@@ -52,7 +52,6 @@ public class BoundedBuffer<T> {
             notFull.signal();
 
             return item;
-
         } finally {
             lock.unlock();
         }
