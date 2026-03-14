@@ -12,10 +12,8 @@ public class SimpleThreadPool {
 
     private final Queue<Runnable> taskQueue = new LinkedList<>();
     private final List<Worker> workers = new LinkedList<>();
-    private final int numThreads;
 
     public SimpleThreadPool(int numThreads) {
-        this.numThreads = numThreads;
 
         for (int i = 0; i < numThreads; i++) {
             Worker worker = new Worker();

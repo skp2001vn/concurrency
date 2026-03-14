@@ -8,15 +8,12 @@ import java.util.concurrent.*;
 public class AsyncJobQueue {
 
     private final BlockingQueue<Job> jobQueue = new LinkedBlockingQueue<>();
-
     private final BlockingQueue<Job> deadLetterQueue = new LinkedBlockingQueue<>();
-
     private final ExecutorService workers;
 
     private final int maxRetries;
 
     public AsyncJobQueue(int workerCount, int maxRetries) {
-
         this.maxRetries = maxRetries;
         workers = Executors.newFixedThreadPool(workerCount);
 
@@ -30,7 +27,6 @@ public class AsyncJobQueue {
     }
 
     private void workerLoop() {
-
         while (true) {
             try {
                 Job job = jobQueue.take();

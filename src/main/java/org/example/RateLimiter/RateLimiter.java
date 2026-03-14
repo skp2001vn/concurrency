@@ -8,7 +8,6 @@ public class RateLimiter {
 
     private final int limit;
     private final long windowSizeInMillis;
-
     private final ConcurrentHashMap<String, ConcurrentLinkedQueue<Long>> requestLog;
 
     public RateLimiter(int limit, long windowSizeInMillis) {

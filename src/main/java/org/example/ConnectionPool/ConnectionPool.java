@@ -27,9 +27,7 @@ public class ConnectionPool {
         }
     }
 
-    public Connection acquire(long timeoutMillis)
-            throws InterruptedException {
-
+    public Connection acquire(long timeoutMillis) throws InterruptedException {
         long nanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
 
         lock.lock();

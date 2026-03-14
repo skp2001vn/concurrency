@@ -12,8 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TaskScheduler {
 
-    private static class ScheduledTask implements Comparable<ScheduledTask> {
-
+    private static class ScheduledTask {
         long executionTime;
         Runnable task;
 
@@ -21,14 +20,11 @@ public class TaskScheduler {
             this.executionTime = executionTime;
             this.task = task;
         }
-
-        @Override
-        public int compareTo(ScheduledTask other) {
-            return Long.compare(this.executionTime, other.executionTime);
-        }
     }
 
-    private final PriorityQueue<ScheduledTask> queue = new PriorityQueue<>();
+    private final PriorityQueue<ScheduledTask> queue = new PriorityQueue<>(
+            (a, b) -> Long.compare(b.executionTime, a.executionTime)
+    );
 
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition newTaskArrived = lock.newCondition();
@@ -64,7 +60,6 @@ public class TaskScheduler {
 
                 long now = System.currentTimeMillis();
                 long waitTime = nextTask.executionTime - now;
-
                 if (waitTime > 0) {
                     newTaskArrived.awaitNanos(waitTime * 1_000_000);
                     continue;
@@ -72,7 +67,6 @@ public class TaskScheduler {
 
                 queue.poll();
                 nextTask.task.run();
-
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } finally {

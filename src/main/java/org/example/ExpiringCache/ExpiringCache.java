@@ -18,27 +18,18 @@ public class ExpiringCache<K, V> {
     }
 
     private final ConcurrentHashMap<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
-
     private final ScheduledExecutorService cleaner = Executors.newSingleThreadScheduledExecutor();
 
     public ExpiringCache() {
-
-        cleaner.scheduleAtFixedRate(
-                this::cleanup,
-                5,
-                5,
-                TimeUnit.SECONDS
-        );
+        cleaner.scheduleAtFixedRate(this::cleanup, 5, 5, TimeUnit.SECONDS);
     }
 
     public void put(K key, V value, long ttlMillis) {
-
         long expireAt = System.currentTimeMillis() + ttlMillis;
         cache.put(key, new CacheEntry<>(value, expireAt));
     }
 
     public V get(K key) {
-
         CacheEntry<V> entry = cache.get(key);
         if (entry == null) {
             return null;
@@ -53,7 +44,6 @@ public class ExpiringCache<K, V> {
     }
 
     private void cleanup() {
-
         long now = System.currentTimeMillis();
         for (var entry : cache.entrySet()) {
             if (entry.getValue().expireAt <= now) {
