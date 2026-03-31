@@ -4,7 +4,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ReentrantLockRateLimiter {
+/**
+ * A sliding-window rate limiter that uses a dedicated reentrant lock per user
+ * to coordinate request tracking and enforce request limits within a fixed
+ * time window.
+ */
+public class LockBasedRateLimiter implements RateLimiter {
 
     private final int limit;
     private final long windowSizeInMillis;
@@ -16,11 +21,12 @@ public class ReentrantLockRateLimiter {
 
     private final ConcurrentHashMap<String, RateLimitState> requestLog = new ConcurrentHashMap<>();
 
-    public ReentrantLockRateLimiter(int limit, long windowSizeInMillis) {
+    public LockBasedRateLimiter(int limit, long windowSizeInMillis) {
         this.limit = limit;
         this.windowSizeInMillis = windowSizeInMillis;
     }
 
+    @Override
     public boolean allowRequest(String userId) {
         long now = System.currentTimeMillis();
 

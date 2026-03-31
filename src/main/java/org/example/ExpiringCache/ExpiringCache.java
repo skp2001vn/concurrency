@@ -4,6 +4,11 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * A thread-safe cache that stores entries with per-item expiration times,
+ * removes expired values on access, and periodically cleans them up in the
+ * background with a scheduled task.
+ */
 public class ExpiringCache<K, V> {
 
     private static class CacheEntry<V> {

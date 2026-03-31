@@ -4,11 +4,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Allow:
- * 	•	multiple readers
- * 	•	single writer
- * 	•	writer blocks readers
- * 	•	readers block writers
+ * A basic read-write lock that allows multiple concurrent readers or one
+ * exclusive writer, giving waiting writers priority over new readers to
+ * reduce writer starvation.
  */
 public class SimpleReadWriteLock {
 

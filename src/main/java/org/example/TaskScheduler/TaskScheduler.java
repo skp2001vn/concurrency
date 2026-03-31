@@ -5,10 +5,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 	scheduling tasks to run after a delay
- * 	thread coordination
- * 	PriorityQueue for ordering tasks
- * 	ReentrantLock + Condition for waiting and signaling
+ * A single-worker task scheduler that runs submitted tasks after a delay,
+ * ordering them by execution time with a priority queue and coordinating
+ * waiting and wakeups with an explicit lock and condition.
  */
 public class TaskScheduler {
 

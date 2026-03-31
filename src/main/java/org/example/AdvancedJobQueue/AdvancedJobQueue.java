@@ -3,10 +3,9 @@ package org.example.AdvancedJobQueue;
 import java.util.concurrent.*;
 
 /**
- * 	job scheduling (run later)
- * 	retry with exponential backoff
- * 	job priorities
- * 	job cancellation
+ * A concurrent job queue that executes tasks by scheduled time and priority,
+ * supports cancellation, retries failed jobs with exponential backoff, and
+ * moves jobs that exceed the retry limit to a dead-letter queue.
  */
 public class AdvancedJobQueue {
 

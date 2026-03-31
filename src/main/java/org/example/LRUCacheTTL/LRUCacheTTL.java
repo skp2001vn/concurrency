@@ -5,9 +5,12 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Thread-Safe LRU Cache with TTL (expiration)
- * @param <K>
- * @param <V>
+ * A thread-safe cache that combines least-recently-used eviction with per-entry
+ * time-to-live expiration, using a hash map and doubly linked list to track
+ * access order under a single lock.
+ *
+ * @param <K> the key type
+ * @param <V> the value type
  */
 public class LRUCacheTTL<K, V> {
 

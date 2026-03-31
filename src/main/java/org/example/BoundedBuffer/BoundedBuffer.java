@@ -6,11 +6,11 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * 	producers add items
- * 	consumers remove items
- * 	producers wait if the buffer is full
- * 	consumers wait if the buffer is empty
- * @param <T>
+ * A thread-safe bounded buffer for producer-consumer coordination where
+ * producers block when the buffer is full and consumers block when it is
+ * empty, using an explicit lock and condition variables.
+ *
+ * @param <T> the type of items stored in the buffer
  */
 public class BoundedBuffer<T> {
 

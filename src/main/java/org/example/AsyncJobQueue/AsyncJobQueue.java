@@ -5,11 +5,9 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 /**
- * Async job queue with:
- * - fixed worker pool
- * - retry logic
- * - dead-letter queue
- * - explicit locking using ReentrantLock
+ * A concurrent job queue that processes tasks asynchronously with a fixed
+ * worker pool, retries failed jobs up to a limit, and stores exhausted jobs
+ * in a dead-letter queue using explicit lock-based coordination.
  */
 public class AsyncJobQueue {
 

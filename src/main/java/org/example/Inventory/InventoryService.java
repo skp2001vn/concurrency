@@ -1,34 +1,8 @@
 package org.example.Inventory;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
+public interface InventoryService {
 
-public class InventoryService {
+    void addProduct(String productId, int quantity);
 
-    private final ConcurrentHashMap<String, Integer> inventory = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String, ReentrantLock> locks = new ConcurrentHashMap<>();
-
-    public void addProduct(String productId, int quantity) {
-        inventory.put(productId, quantity);
-        //can use one global lock, but using one lock per productId (fine-grained locking) allows much better parallelism.
-        locks.put(productId, new ReentrantLock());
-    }
-
-    public boolean purchase(String productId) {
-        ReentrantLock lock = locks.get(productId);
-
-        lock.lock();
-        try {
-            int stock = inventory.get(productId);
-
-            if (stock <= 0) {
-                return false;
-            }
-
-            inventory.put(productId, stock - 1);
-            return true;
-        } finally {
-            lock.unlock();
-        }
-    }
+    boolean purchase(String productId);
 }

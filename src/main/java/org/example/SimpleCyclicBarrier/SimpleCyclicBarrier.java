@@ -4,7 +4,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * N threads must wait until all arrive before any proceed.
+ * A reusable synchronization barrier that blocks threads until a fixed number
+ * of parties have called {@code await()}, then releases them together and
+ * resets for the next generation.
  */
 public class SimpleCyclicBarrier {
 

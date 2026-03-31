@@ -5,9 +5,12 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * a service where multiple threads may request the same expensive computation.
- * @param <K>
- * @param <V>
+ * A thread-safe memoization cache that stores in-progress and completed
+ * computations as futures so concurrent requests for the same key share a
+ * single expensive computation.
+ *
+ * @param <K> the key type
+ * @param <V> the computed value type
  */
 public class Memoizer<K, V> {
 

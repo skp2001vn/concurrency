@@ -5,8 +5,8 @@ import java.util.concurrent.locks.*;
 
 
 /**
- * This mimics a simplified version of Java’s ExecutorService.
- * Worker threads continuously pick tasks from a queue.
+ * A simple fixed-size thread pool that queues submitted tasks and has worker
+ * threads wait for and execute them using an explicit lock and condition.
  */
 
 public class SimpleThreadPool {

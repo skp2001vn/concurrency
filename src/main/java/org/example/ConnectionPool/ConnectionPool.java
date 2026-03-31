@@ -5,7 +5,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.*;
 
 /**
- * Build a thread-safe connection pool that supports timeouts, fairness, and max waiting threads.
+ * A thread-safe connection pool that lets threads acquire and release reusable
+ * connections with timeout support, fair lock ordering, and a limit on how
+ * many threads may wait for a connection.
  */
 public class ConnectionPool {
 
