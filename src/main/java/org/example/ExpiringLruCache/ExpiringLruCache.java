@@ -1,18 +1,18 @@
-package org.example.LRUCacheTTL;
+package org.example.ExpiringLruCache;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe cache that combines least-recently-used eviction with per-entry
- * time-to-live expiration, using a hash map and doubly linked list to track
- * access order under a single lock.
+ * A thread-safe cache that stores entries with per-item expiration times and
+ * evicts the least recently used entry when capacity is exceeded, using a hash
+ * map and doubly linked list to maintain access order under a single lock.
  *
  * @param <K> the key type
  * @param <V> the value type
  */
-public class LRUCacheTTL<K, V> {
+public class ExpiringLruCache<K, V> {
 
     private class Node {
         K key;
@@ -37,7 +37,7 @@ public class LRUCacheTTL<K, V> {
 
     private final ReentrantLock lock = new ReentrantLock();
 
-    public LRUCacheTTL(int capacity) {
+    public ExpiringLruCache(int capacity) {
         this.capacity = capacity;
     }
 

@@ -28,7 +28,11 @@ public class ExpiringCache<K, V> {
             Executors.newSingleThreadScheduledExecutor();
 
     public ExpiringCache() {
-        cleaner.scheduleAtFixedRate(this::cleanup, 5, 5, TimeUnit.SECONDS);
+        this(5, TimeUnit.SECONDS);
+    }
+
+    ExpiringCache(long cleanupInterval, TimeUnit unit) {
+        cleaner.scheduleAtFixedRate(this::cleanup, cleanupInterval, cleanupInterval, unit);
     }
 
     public void put(K key, V value, long ttlMillis) {
@@ -76,5 +80,9 @@ public class ExpiringCache<K, V> {
         } finally {
             lock.unlock();
         }
+    }
+
+    void shutdown() {
+        cleaner.shutdownNow();
     }
 }

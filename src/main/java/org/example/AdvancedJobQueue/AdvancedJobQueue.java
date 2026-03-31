@@ -15,9 +15,15 @@ public class AdvancedJobQueue {
 
     private final ExecutorService workers;
     private final int maxRetries;
+    private final long retryBaseDelayMillis;
 
     public AdvancedJobQueue(int workerCount, int maxRetries) {
+        this(workerCount, maxRetries, 1000);
+    }
+
+    AdvancedJobQueue(int workerCount, int maxRetries, long retryBaseDelayMillis) {
         this.maxRetries = maxRetries;
+        this.retryBaseDelayMillis = retryBaseDelayMillis;
 
         workers = Executors.newFixedThreadPool(workerCount);
         for (int i = 0; i < workerCount; i++) {
@@ -58,7 +64,7 @@ public class AdvancedJobQueue {
                 } catch (Exception e) {
                     job.retries++;
                     if (job.retries <= maxRetries) {
-                        long backoff = (long) Math.pow(2, job.retries) * 1000;
+                        long backoff = (long) Math.pow(2, job.retries) * retryBaseDelayMillis;
                         job.executeAt =
                                 System.currentTimeMillis() + backoff;
 

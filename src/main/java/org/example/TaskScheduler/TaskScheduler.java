@@ -22,13 +22,14 @@ public class TaskScheduler {
     }
 
     private final PriorityQueue<ScheduledTask> queue = new PriorityQueue<>(
-            (a, b) -> Long.compare(b.executionTime, a.executionTime)
+            (a, b) -> Long.compare(a.executionTime, b.executionTime)
     );
 
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition newTaskArrived = lock.newCondition();
 
     private final Thread worker;
+    private volatile boolean running = true;
 
     public TaskScheduler() {
         worker = new Thread(this::runWorker);
@@ -40,6 +41,9 @@ public class TaskScheduler {
 
         lock.lock();
         try {
+            if (!running) {
+                throw new IllegalStateException("Scheduler is shut down");
+            }
             queue.offer(new ScheduledTask(executionTime, task));
             newTaskArrived.signal();
         } finally {
@@ -47,12 +51,26 @@ public class TaskScheduler {
         }
     }
 
+    public void shutdown() {
+        running = false;
+        worker.interrupt();
+        lock.lock();
+        try {
+            newTaskArrived.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
     private void runWorker() {
-        while (true) {
+        while (running) {
             lock.lock();
             try {
-                while (queue.isEmpty()) {
+                while (queue.isEmpty() && running) {
                     newTaskArrived.await();
+                }
+                if (!running) {
+                    return;
                 }
 
                 ScheduledTask nextTask = queue.peek();
@@ -68,6 +86,9 @@ public class TaskScheduler {
                 nextTask.task.run();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                if (!running) {
+                    return;
+                }
             } finally {
                 lock.unlock();
             }

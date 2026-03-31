@@ -16,6 +16,7 @@ public class SimpleThreadPool {
 
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition notEmpty = lock.newCondition();
+    private volatile boolean running = true;
 
     public SimpleThreadPool(int numThreads) {
         for (int i = 0; i < numThreads; i++) {
@@ -28,6 +29,9 @@ public class SimpleThreadPool {
     public void submit(Runnable task) {
         lock.lock();
         try {
+            if (!running) {
+                throw new IllegalStateException("Thread pool is shut down");
+            }
             taskQueue.offer(task);
             notEmpty.signal();
         } finally {
@@ -35,16 +39,34 @@ public class SimpleThreadPool {
         }
     }
 
+    public void shutdown() {
+        running = false;
+        lock.lock();
+        try {
+            notEmpty.signalAll();
+        } finally {
+            lock.unlock();
+        }
+
+        for (Worker worker : workers) {
+            worker.interrupt();
+        }
+    }
+
     private class Worker extends Thread {
 
+        @Override
         public void run() {
-            while (true) {
+            while (running) {
                 Runnable task;
 
                 lock.lock();
                 try {
-                    while (taskQueue.isEmpty()) {
+                    while (taskQueue.isEmpty() && running) {
                         notEmpty.await();
+                    }
+                    if (!running && taskQueue.isEmpty()) {
+                        return;
                     }
                     task = taskQueue.poll();
                 } catch (InterruptedException e) {

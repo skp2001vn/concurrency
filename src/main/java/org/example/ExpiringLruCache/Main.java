@@ -1,10 +1,10 @@
-package org.example.LRUCacheTTL;
+package org.example.ExpiringLruCache;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        LRUCacheTTL<Integer, String> cache = new LRUCacheTTL<>(2);
+        ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);
 
         cache.put(1, "A", 2000);
         cache.put(2, "B", 5000);
