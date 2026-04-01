@@ -15,7 +15,7 @@ The codebase is organized as small, focused introductory examples. Each example 
 mvn test
 ```
 
-The current test suite contains 50 passing tests across all examples.
+
 
 ## Implemented Examples
 
@@ -30,6 +30,8 @@ The current test suite contains 50 passing tests across all examples.
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
 | `expiringcache` | TTL cache with background cleanup |
 | `expiringlrucache` | Cache with TTL and least-recently-used eviction |
+| `fizzbuzz` | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
+| `h2o` | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
 | `inventory` | Two thread-safe inventory implementations: lock-based and atomic/CAS |
 | `ratelimiter` | Sliding-window rate limiting with synchronized and lock-based variants |
 | `asyncjobqueue` | Asynchronous job queue with retries and dead-letter queue |
