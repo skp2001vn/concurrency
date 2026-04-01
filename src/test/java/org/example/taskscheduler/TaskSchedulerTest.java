@@ -71,4 +71,32 @@ class TaskSchedulerTest {
 
         assertEquals("Scheduler is shut down", thrown.getMessage());
     }
+
+    @Test
+    void runningTaskDoesNotBlockSubmittingAnotherTask() throws InterruptedException {
+        scheduler = new TaskScheduler();
+        CountDownLatch longTaskStarted = new CountDownLatch(1);
+        CountDownLatch releaseLongTask = new CountDownLatch(1);
+        CountDownLatch quickTaskRan = new CountDownLatch(1);
+
+        scheduler.schedule(() -> {
+            longTaskStarted.countDown();
+            try {
+                releaseLongTask.await();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, 0);
+
+        assertTrue(longTaskStarted.await(1, TimeUnit.SECONDS));
+
+        Thread submitter = new Thread(() -> scheduler.schedule(quickTaskRan::countDown, 0));
+        submitter.start();
+        submitter.join(500);
+
+        assertTrue(!submitter.isAlive());
+
+        releaseLongTask.countDown();
+        assertTrue(quickTaskRan.await(1, TimeUnit.SECONDS));
+    }
 }

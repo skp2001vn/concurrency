@@ -79,4 +79,15 @@ class AdvancedJobQueueTest {
         assertEquals("job-dlq", failedJob.id);
         assertEquals(2, failedJob.retries);
     }
+
+    @Test
+    void immediateJobIsNotBlockedBehindDelayedJob() throws InterruptedException {
+        queue = new AdvancedJobQueue(1, 0, 25);
+        CountDownLatch immediateRan = new CountDownLatch(1);
+
+        queue.submit(new Job("job-delayed", () -> {}, 1, 500));
+        queue.submit(new Job("job-now", immediateRan::countDown, 1, 0));
+
+        assertTrue(immediateRan.await(200, TimeUnit.MILLISECONDS));
+    }
 }

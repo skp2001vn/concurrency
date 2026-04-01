@@ -1,8 +1,10 @@
 package org.example.advancedjobqueue;
 
+import java.util.concurrent.Delayed;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class Job implements Comparable<Job> {
+class Job implements Delayed {
 
     String id;
     Runnable task;
@@ -23,10 +25,17 @@ class Job implements Comparable<Job> {
     }
 
     @Override
-    public int compareTo(Job other) {
-        if (this.executeAt != other.executeAt)
-            return Long.compare(this.executeAt, other.executeAt);
+    public long getDelay(TimeUnit unit) {
+        long delayMillis = executeAt - System.currentTimeMillis();
+        return unit.convert(delayMillis, TimeUnit.MILLISECONDS);
+    }
 
-        return Integer.compare(other.priority, this.priority);
+    @Override
+    public int compareTo(Delayed other) {
+        Job otherJob = (Job) other;
+        if (this.executeAt != otherJob.executeAt)
+            return Long.compare(this.executeAt, otherJob.executeAt);
+
+        return Integer.compare(otherJob.priority, this.priority);
     }
 }

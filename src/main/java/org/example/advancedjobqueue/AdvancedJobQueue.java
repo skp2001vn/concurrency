@@ -9,7 +9,7 @@ import java.util.concurrent.*;
  */
 public class AdvancedJobQueue {
 
-    private final PriorityBlockingQueue<Job> queue = new PriorityBlockingQueue<>();
+    private final DelayQueue<Job> queue = new DelayQueue<>();
     private final BlockingQueue<Job> deadLetterQueue = new LinkedBlockingQueue<>();
     private final ConcurrentHashMap<String, Job> jobRegistry = new ConcurrentHashMap<>();
 
@@ -50,13 +50,6 @@ public class AdvancedJobQueue {
                 if (job.cancelled.get())
                     continue;
 
-                long now = System.currentTimeMillis();
-                if (job.executeAt > now) {
-                    queue.offer(job);
-                    Thread.sleep(job.executeAt - now);
-                    continue;
-                }
-
                 try {
                     job.task.run();
                     jobRegistry.remove(job.id);
@@ -86,6 +79,11 @@ public class AdvancedJobQueue {
         }
     }
 
-    public BlockingQueue<Job> getDeadLetterQueue() {return deadLetterQueue;}
-    public void shutdown() {workers.shutdownNow();}
+    public BlockingQueue<Job> getDeadLetterQueue() {
+        return deadLetterQueue;
+    }
+
+    public void shutdown() {
+        workers.shutdownNow();
+    }
 }

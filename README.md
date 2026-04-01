@@ -15,7 +15,7 @@ The codebase is organized as small, focused introductory examples. Each example 
 mvn test
 ```
 
-The current test suite contains 60 passing tests across all examples.
+The current test suite contains 62 passing tests across all examples.
 
 ## Implemented Examples
 
@@ -57,12 +57,5 @@ Its purpose is to keep the repository consistent as it grows by defining:
 - testing requirements
 - README maintenance rules
 - general code quality and naming conventions
-
-Using an agent guide has a few practical advantages:
-- it keeps new examples aligned with the existing package and test layout
-- it reduces inconsistent naming and documentation styles
-- it reinforces adding tests for concurrency behavior, not just happy paths
-- it makes AI-assisted changes more predictable and easier to review
-- it helps keep the README and implementation details in sync
 
 If you add a new example, check `AGENTS.md` before making changes.

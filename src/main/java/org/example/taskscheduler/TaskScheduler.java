@@ -64,6 +64,8 @@ public class TaskScheduler {
 
     private void runWorker() {
         while (running) {
+            Runnable taskToRun = null;
+
             lock.lock();
             try {
                 while (queue.isEmpty() && running) {
@@ -83,7 +85,7 @@ public class TaskScheduler {
                 }
 
                 queue.poll();
-                nextTask.task.run();
+                taskToRun = nextTask.task;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 if (!running) {
@@ -91,6 +93,14 @@ public class TaskScheduler {
                 }
             } finally {
                 lock.unlock();
+            }
+
+            try {
+                if (taskToRun != null) {
+                    taskToRun.run();
+                }
+            } catch (RuntimeException e) {
+                e.printStackTrace();
             }
         }
     }
