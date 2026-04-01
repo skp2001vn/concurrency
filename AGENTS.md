@@ -15,6 +15,7 @@ Each example should remain:
 - Java 17
 - Maven
 - JUnit 5
+- Lombok
 
 ## Project Structure
 
@@ -40,6 +41,8 @@ Each example should remain:
 - Avoid unnecessary abstractions for small examples.
 - Keep APIs minimal and aligned with the problem being solved.
 - Use descriptive class and method names. Prefer simple names like `WebCrawler` over overly specific or verbose names unless needed.
+- Use Lombok selectively for simple boilerplate such as getters or constructors on data-holder classes.
+- Do not use Lombok where it obscures concurrency behavior or makes synchronization logic harder to read.
 
 ## Javadoc Expectations
 
@@ -50,6 +53,7 @@ Each example should remain:
   - the coordination strategy used
   - important behavioral guarantees or constraints
 - Keep Javadoc concise and practical. Avoid repeating obvious implementation details line by line.
+- When Lombok generates simple constructors or getters, document the class and any non-generated public methods instead of recreating boilerplate manually.
 
 ## Testing Guidelines
 

@@ -3,6 +3,7 @@ package org.example.expiringcache;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
+import lombok.RequiredArgsConstructor;
 
 /**
  * A thread-safe cache that stores entries with per-item expiration times,
@@ -11,14 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class ExpiringCache<K, V> {
 
+    @RequiredArgsConstructor
     private static class CacheEntry<V> {
         final V value;
         final long expireAt;
-
-        CacheEntry(V value, long expireAt) {
-            this.value = value;
-            this.expireAt = expireAt;
-        }
     }
 
     private final Map<K, CacheEntry<V>> cache = new HashMap<>();

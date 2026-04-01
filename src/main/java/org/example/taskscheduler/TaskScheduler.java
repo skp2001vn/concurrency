@@ -3,6 +3,7 @@ package org.example.taskscheduler;
 import java.util.PriorityQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import lombok.AllArgsConstructor;
 
 /**
  * A single-worker task scheduler that runs submitted tasks after a delay,
@@ -11,14 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TaskScheduler {
 
+    @AllArgsConstructor
     private static class ScheduledTask {
         long executionTime;
         Runnable task;
-
-        ScheduledTask(long executionTime, Runnable task) {
-            this.executionTime = executionTime;
-            this.task = task;
-        }
     }
 
     private final PriorityQueue<ScheduledTask> queue = new PriorityQueue<>(
