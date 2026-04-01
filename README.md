@@ -43,8 +43,3 @@ src/test/java/org/example/
 ```
 
 Production code lives under `src/main/java`, and each example has a matching test class under `src/test/java`.
-
-## Notes
-
-- The project favors explicit synchronization primitives such as `ReentrantLock`, `Condition`, `AtomicInteger`, and concurrent collections.
-- `Main.java` is currently just a placeholder entry point; the primary value of the project is in the individual examples and their tests.
