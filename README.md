@@ -15,7 +15,7 @@ The codebase is organized as small, focused introductory examples. Each example 
 mvn test
 ```
 
-
+The current test suite contains 60 passing tests across all examples.
 
 ## Implemented Examples
 
@@ -46,3 +46,23 @@ src/test/java/org/example/
 ```
 
 Production code lives under `src/main/java`, and each example has a matching test class under `src/test/java`.
+
+## Agent Workflow
+
+This repository includes [AGENTS.md](/Users/thanhnguyen/IdeaProjects/concurrency/AGENTS.md) to guide AI-assisted and human contributions when adding or updating examples.
+
+Its purpose is to keep the repository consistent as it grows by defining:
+- how new examples should be structured
+- expectations for Javadoc
+- testing requirements
+- README maintenance rules
+- general code quality and naming conventions
+
+Using an agent guide has a few practical advantages:
+- it keeps new examples aligned with the existing package and test layout
+- it reduces inconsistent naming and documentation styles
+- it reinforces adding tests for concurrency behavior, not just happy paths
+- it makes AI-assisted changes more predictable and easier to review
+- it helps keep the README and implementation details in sync
+
+If you add a new example, check `AGENTS.md` before making changes.
