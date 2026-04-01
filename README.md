@@ -1,4 +1,4 @@
-# Concurrency
+# Concurrency Examples
 
 A Java 17 Maven project that implements and tests a set of concurrency patterns, synchronization primitives, and thread-safe data structures.
 
