@@ -49,7 +49,7 @@ Production code lives under `src/main/java`, and each example has a matching tes
 
 ## Agent Workflow
 
-This repository includes [AGENTS.md](/Users/thanhnguyen/IdeaProjects/concurrency/AGENTS.md) to guide AI-assisted and human contributions when adding or updating examples.
+This repository includes [AGENTS.md](AGENTS.md) to guide AI-assisted and human contributions when adding or updating examples.
 
 Its purpose is to keep the repository consistent as it grows by defining:
 - how new examples should be structured
