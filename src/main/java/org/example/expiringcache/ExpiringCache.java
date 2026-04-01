@@ -27,6 +27,9 @@ public class ExpiringCache<K, V> {
     private final ScheduledExecutorService cleaner =
             Executors.newSingleThreadScheduledExecutor();
 
+    /**
+     * Creates a cache with a default cleanup interval of five seconds.
+     */
     public ExpiringCache() {
         this(5, TimeUnit.SECONDS);
     }
@@ -35,6 +38,13 @@ public class ExpiringCache<K, V> {
         cleaner.scheduleAtFixedRate(this::cleanup, cleanupInterval, cleanupInterval, unit);
     }
 
+    /**
+     * Stores a value with the given time-to-live.
+     *
+     * @param key the cache key
+     * @param value the value to store
+     * @param ttlMillis the entry time-to-live in milliseconds
+     */
     public void put(K key, V value, long ttlMillis) {
         long expireAt = System.currentTimeMillis() + ttlMillis;
 
@@ -46,6 +56,12 @@ public class ExpiringCache<K, V> {
         }
     }
 
+    /**
+     * Returns the cached value for the given key, or {@code null} if the key is absent or expired.
+     *
+     * @param key the cache key
+     * @return the cached value, or {@code null} if not available
+     */
     public V get(K key) {
         lock.lock();
         try {

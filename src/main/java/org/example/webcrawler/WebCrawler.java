@@ -22,6 +22,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class WebCrawler {
     private static final int WORKER_COUNT = 8;
 
+    /**
+     * Crawls the connected same-host subgraph reachable from the starting URL.
+     *
+     * @param startUrl the initial page to crawl
+     * @param htmlParser parser used to fetch links from each page
+     * @return all reachable URLs on the same host, in arbitrary order
+     */
     public List<String> crawl(String startUrl, HtmlParser htmlParser) {
         String hostname = extractHostname(startUrl);
         Set<String> visited = ConcurrentHashMap.newKeySet();

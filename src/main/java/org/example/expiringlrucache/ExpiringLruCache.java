@@ -37,10 +37,21 @@ public class ExpiringLruCache<K, V> {
 
     private final ReentrantLock lock = new ReentrantLock();
 
+    /**
+     * Creates a cache with the given maximum number of entries.
+     *
+     * @param capacity the maximum number of live entries before LRU eviction occurs
+     */
     public ExpiringLruCache(int capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     * Returns the value for a key, or {@code null} if the key is absent or expired.
+     *
+     * @param key the cache key
+     * @return the cached value, or {@code null} if no valid entry exists
+     */
     public V get(K key) {
         lock.lock();
         try {
@@ -62,6 +73,13 @@ public class ExpiringLruCache<K, V> {
         }
     }
 
+    /**
+     * Stores or updates a value with the given time-to-live.
+     *
+     * @param key the cache key
+     * @param value the value to store
+     * @param ttlMillis the entry time-to-live in milliseconds
+     */
     public void put(K key, V value, long ttlMillis) {
         lock.lock();
         try {

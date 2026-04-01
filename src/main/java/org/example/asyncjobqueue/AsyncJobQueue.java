@@ -21,6 +21,12 @@ public class AsyncJobQueue {
     private final int maxRetries;
     private volatile boolean running = true;
 
+    /**
+     * Creates an asynchronous job queue with the given worker count and retry limit.
+     *
+     * @param workerCount the number of worker threads
+     * @param maxRetries the maximum number of retry attempts before dead-lettering a job
+     */
     public AsyncJobQueue(int workerCount, int maxRetries) {
         this.maxRetries = maxRetries;
         workers = Executors.newFixedThreadPool(workerCount);
@@ -30,6 +36,11 @@ public class AsyncJobQueue {
         }
     }
 
+    /**
+     * Enqueues a job for asynchronous processing.
+     *
+     * @param job the job to process
+     */
     public void submit(Job job) {
         lock.lock();
         try {
@@ -89,6 +100,11 @@ public class AsyncJobQueue {
         }
     }
 
+    /**
+     * Returns a snapshot of the dead-letter queue.
+     *
+     * @return the jobs that exhausted their retries
+     */
     public List<Job> getDeadLetterQueue() {
         lock.lock();
         try {
@@ -98,6 +114,9 @@ public class AsyncJobQueue {
         }
     }
 
+    /**
+     * Stops workers and wakes any threads waiting for new jobs.
+     */
     public void shutdown() {
         running = false;
 

@@ -21,10 +21,21 @@ public class BoundedBuffer<T> {
     private final Condition notFull = lock.newCondition();
     private final Condition notEmpty = lock.newCondition();
 
+    /**
+     * Creates a bounded buffer with the given capacity.
+     *
+     * @param capacity the maximum number of items the buffer can hold
+     */
     public BoundedBuffer(int capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     * Inserts an item into the buffer, blocking while the buffer is full.
+     *
+     * @param item the item to add
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void produce(T item) throws InterruptedException {
         lock.lock();
         try {
@@ -40,6 +51,12 @@ public class BoundedBuffer<T> {
         }
     }
 
+    /**
+     * Removes and returns the next item from the buffer, blocking while the buffer is empty.
+     *
+     * @return the next available item
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public T consume() throws InterruptedException {
         lock.lock();
         try {

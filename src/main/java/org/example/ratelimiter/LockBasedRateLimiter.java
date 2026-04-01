@@ -26,6 +26,9 @@ public class LockBasedRateLimiter implements RateLimiter {
         this.windowSizeInMillis = windowSizeInMillis;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean allowRequest(String userId) {
         long now = System.currentTimeMillis();

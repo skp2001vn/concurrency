@@ -13,6 +13,9 @@ public class LockBasedInventoryService implements InventoryService {
     private final ConcurrentHashMap<String, Integer> inventory = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, ReentrantLock> locks = new ConcurrentHashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addProduct(String productId, int quantity) {
         inventory.put(productId, quantity);
@@ -20,6 +23,9 @@ public class LockBasedInventoryService implements InventoryService {
         locks.put(productId, new ReentrantLock());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean purchase(String productId) {
         ReentrantLock lock = locks.get(productId);

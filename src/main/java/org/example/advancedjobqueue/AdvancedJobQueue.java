@@ -17,6 +17,12 @@ public class AdvancedJobQueue {
     private final int maxRetries;
     private final long retryBaseDelayMillis;
 
+    /**
+     * Creates a queue with the given worker count and retry limit.
+     *
+     * @param workerCount the number of worker threads
+     * @param maxRetries the maximum number of retry attempts before dead-lettering a job
+     */
     public AdvancedJobQueue(int workerCount, int maxRetries) {
         this(workerCount, maxRetries, 1000);
     }
@@ -31,11 +37,21 @@ public class AdvancedJobQueue {
         }
     }
 
+    /**
+     * Submits a job for scheduled execution.
+     *
+     * @param job the job to enqueue
+     */
     public void submit(Job job) {
         jobRegistry.put(job.id, job);
         queue.offer(job);
     }
 
+    /**
+     * Marks a job as cancelled so workers skip it if it has not already run.
+     *
+     * @param jobId the identifier of the job to cancel
+     */
     public void cancel(String jobId) {
         Job job = jobRegistry.get(jobId);
         if (job != null) {
@@ -83,6 +99,9 @@ public class AdvancedJobQueue {
         return deadLetterQueue;
     }
 
+    /**
+     * Stops all worker threads immediately.
+     */
     public void shutdown() {
         workers.shutdownNow();
     }

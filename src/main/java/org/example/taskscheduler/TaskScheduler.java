@@ -31,11 +31,21 @@ public class TaskScheduler {
     private final Thread worker;
     private volatile boolean running = true;
 
+    /**
+     * Creates and starts the scheduler worker thread.
+     */
     public TaskScheduler() {
         worker = new Thread(this::runWorker);
         worker.start();
     }
 
+    /**
+     * Schedules a task to run after the given delay.
+     *
+     * @param task the task to execute
+     * @param delayMillis the delay before execution, in milliseconds
+     * @throws IllegalStateException if the scheduler has already been shut down
+     */
     public void schedule(Runnable task, long delayMillis) {
         long executionTime = System.currentTimeMillis() + delayMillis;
 
@@ -51,6 +61,9 @@ public class TaskScheduler {
         }
     }
 
+    /**
+     * Stops the scheduler worker and wakes it if it is currently waiting.
+     */
     public void shutdown() {
         running = false;
         worker.interrupt();

@@ -15,8 +15,6 @@ The codebase is organized as small, focused introductory examples. Each example 
 mvn test
 ```
 
-The current test suite contains 62 passing tests across all examples.
-
 ## Implemented Examples
 
 | Example | What it demonstrates |
@@ -38,15 +36,6 @@ The current test suite contains 62 passing tests across all examples.
 | `advancedjobqueue` | Priority and scheduled job execution with retries, cancellation, and dead-letter queue |
 | `webcrawler` | Concurrent crawling of same-host URLs with a thread pool, deduplication, and cycle handling |
 
-## Project Structure
-
-```text
-src/main/java/org/example/
-src/test/java/org/example/
-```
-
-Production code lives under `src/main/java`, and each example has a matching test class under `src/test/java`.
-
 ## Agent Workflow
 
 This repository includes [AGENTS.md](AGENTS.md) to guide AI-assisted and human contributions when adding or updating examples.
@@ -59,3 +48,12 @@ Its purpose is to keep the repository consistent as it grows by defining:
 - general code quality and naming conventions
 
 If you add a new example, check `AGENTS.md` before making changes.
+
+## Project Structure
+
+```text
+src/main/java/org/example/
+src/test/java/org/example/
+```
+
+Production code lives under `src/main/java`, and each example has a matching test class under `src/test/java`.

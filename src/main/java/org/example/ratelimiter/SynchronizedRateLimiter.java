@@ -20,6 +20,9 @@ public class SynchronizedRateLimiter implements RateLimiter {
         this.requestLog = new ConcurrentHashMap<>();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean allowRequest(String userId) {
         long now = System.currentTimeMillis();

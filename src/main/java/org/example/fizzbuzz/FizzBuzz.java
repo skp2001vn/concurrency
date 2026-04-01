@@ -19,10 +19,21 @@ public class FizzBuzz {
     private Semaphore buzzSem = new Semaphore(0);
     private Semaphore fizzbuzzSem = new Semaphore(0);
 
+    /**
+     * Creates a FizzBuzz coordinator that prints values from {@code 1} to {@code n}.
+     *
+     * @param n the inclusive upper bound of the sequence
+     */
     public FizzBuzz(int n) {
         this.n = n;
     }
 
+    /**
+     * Prints {@code fizz} for multiples of 3 that are not multiples of 5.
+     *
+     * @param printFizz callback used to emit {@code fizz}
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void fizz(Runnable printFizz) throws InterruptedException {
 
         for (int i = 3; i <= n; i += 3) {
@@ -34,6 +45,12 @@ public class FizzBuzz {
         }
     }
 
+    /**
+     * Prints {@code buzz} for multiples of 5 that are not multiples of 3.
+     *
+     * @param printBuzz callback used to emit {@code buzz}
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void buzz(Runnable printBuzz) throws InterruptedException {
 
         for (int i = 5; i <= n; i += 5) {
@@ -45,6 +62,12 @@ public class FizzBuzz {
         }
     }
 
+    /**
+     * Prints {@code fizzbuzz} for values divisible by both 3 and 5.
+     *
+     * @param printFizzBuzz callback used to emit {@code fizzbuzz}
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
 
         for (int i = 15; i <= n; i += 15) {
@@ -54,6 +77,12 @@ public class FizzBuzz {
         }
     }
 
+    /**
+     * Prints plain numbers and delegates divisible values to the specialized worker threads.
+     *
+     * @param printNumber callback used to emit a number
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void number(IntConsumer printNumber) throws InterruptedException {
 
         for (int i = 1; i <= n; i++) {

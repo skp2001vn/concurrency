@@ -11,11 +11,17 @@ public class AtomicInventoryService implements InventoryService {
 
     private final ConcurrentHashMap<String, AtomicInteger> inventory = new ConcurrentHashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void addProduct(String productId, int quantity) {
         inventory.put(productId, new AtomicInteger(quantity));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean purchase(String productId) {
         AtomicInteger stock = inventory.get(productId);

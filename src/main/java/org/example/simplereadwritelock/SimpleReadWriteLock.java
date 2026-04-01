@@ -18,6 +18,11 @@ public class SimpleReadWriteLock {
     private int activeWriters = 0;
     private int waitingWriters = 0;
 
+    /**
+     * Acquires the read lock, waiting while a writer is active or queued.
+     *
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void lockRead() throws InterruptedException {
         lock.lock();
         try {
@@ -31,6 +36,9 @@ public class SimpleReadWriteLock {
         }
     }
 
+    /**
+     * Releases the read lock.
+     */
     public void unlockRead() {
         lock.lock();
         try {
@@ -43,6 +51,11 @@ public class SimpleReadWriteLock {
         }
     }
 
+    /**
+     * Acquires the write lock, waiting until no readers or writers remain active.
+     *
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void lockWrite() throws InterruptedException {
         lock.lock();
         try {
@@ -59,6 +72,9 @@ public class SimpleReadWriteLock {
         }
     }
 
+    /**
+     * Releases the write lock.
+     */
     public void unlockWrite() {
         lock.lock();
         try {

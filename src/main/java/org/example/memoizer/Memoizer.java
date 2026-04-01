@@ -17,6 +17,15 @@ public class Memoizer<K, V> {
     private final Map<K, Future<V>> cache = new HashMap<>();
     private final ReentrantLock lock = new ReentrantLock();
 
+    /**
+     * Computes or returns the cached value for a key, ensuring concurrent callers share the same
+     * in-flight computation.
+     *
+     * @param key the cache key
+     * @param task the computation to perform if the key is not yet cached
+     * @return the computed value
+     * @throws Exception if the computation fails or the waiting thread is interrupted
+     */
     public V compute(K key, Callable<V> task) throws Exception {
 
         Future<V> future;

@@ -19,6 +19,12 @@ public class ConnectionPool {
     private int waitingThreads = 0;
     private final int maxWaitingThreads;
 
+    /**
+     * Creates a connection pool with the given size and maximum waiter count.
+     *
+     * @param size the number of reusable connections in the pool
+     * @param maxWaitingThreads the maximum number of threads allowed to wait for a connection
+     */
     public ConnectionPool(int size, int maxWaitingThreads) {
 
         pool = new LinkedList<>();
@@ -29,6 +35,13 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Acquires a connection, waiting up to the provided timeout.
+     *
+     * @param timeoutMillis the maximum time to wait, in milliseconds
+     * @return a pooled connection, or {@code null} if the wait timed out
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public Connection acquire(long timeoutMillis) throws InterruptedException {
         long nanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
 
@@ -54,6 +67,11 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Returns a connection to the pool and wakes one waiting acquirer.
+     *
+     * @param conn the connection to release back to the pool
+     */
     public void release(Connection conn) {
         lock.lock();
         try {

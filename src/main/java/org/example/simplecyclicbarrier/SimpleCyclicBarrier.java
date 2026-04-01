@@ -17,10 +17,20 @@ public class SimpleCyclicBarrier {
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition trip = lock.newCondition();
 
+    /**
+     * Creates a reusable barrier for the given number of parties.
+     *
+     * @param parties the number of threads required to trip the barrier
+     */
     public SimpleCyclicBarrier(int parties) {
         this.parties = parties;
     }
 
+    /**
+     * Waits until the required number of threads have arrived at the barrier.
+     *
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void await() throws InterruptedException {
         lock.lock();
         try {

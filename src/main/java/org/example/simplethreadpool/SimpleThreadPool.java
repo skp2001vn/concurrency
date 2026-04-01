@@ -18,6 +18,11 @@ public class SimpleThreadPool {
     private final Condition notEmpty = lock.newCondition();
     private volatile boolean running = true;
 
+    /**
+     * Creates a fixed-size thread pool with the given number of worker threads.
+     *
+     * @param numThreads the number of worker threads to start
+     */
     public SimpleThreadPool(int numThreads) {
         for (int i = 0; i < numThreads; i++) {
             Worker worker = new Worker();
@@ -26,6 +31,12 @@ public class SimpleThreadPool {
         }
     }
 
+    /**
+     * Submits a task for asynchronous execution.
+     *
+     * @param task the task to run
+     * @throws IllegalStateException if the pool has already been shut down
+     */
     public void submit(Runnable task) {
         lock.lock();
         try {
@@ -39,6 +50,9 @@ public class SimpleThreadPool {
         }
     }
 
+    /**
+     * Stops accepting new tasks and interrupts worker threads so the pool can terminate.
+     */
     public void shutdown() {
         running = false;
         lock.lock();

@@ -13,8 +13,17 @@ public class H2O {
     private Semaphore hydrogen = new Semaphore(2);
     private Semaphore oxygen = new Semaphore(0);
 
+    /**
+     * Creates a new coordinator for forming water molecules.
+     */
     public H2O() {}
 
+    /**
+     * Releases one hydrogen atom for the current molecule.
+     *
+     * @param releaseHydrogen callback used to emit hydrogen output
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
 
         hydrogen.acquire();
@@ -22,6 +31,12 @@ public class H2O {
         oxygen.release();
     }
 
+    /**
+     * Releases one oxygen atom after two hydrogens have been released.
+     *
+     * @param releaseOxygen callback used to emit oxygen output
+     * @throws InterruptedException if the current thread is interrupted while waiting
+     */
     public void oxygen(Runnable releaseOxygen) throws InterruptedException {
 
         oxygen.acquire(2);
