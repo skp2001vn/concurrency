@@ -14,10 +14,10 @@ public class FizzBuzz {
 
     private int n;
 
-    private Semaphore numberSem = new Semaphore(1);
-    private Semaphore fizzSem = new Semaphore(0);
-    private Semaphore buzzSem = new Semaphore(0);
-    private Semaphore fizzbuzzSem = new Semaphore(0);
+    private final Semaphore numberSem = new Semaphore(1);
+    private final Semaphore fizzSem = new Semaphore(0);
+    private final Semaphore buzzSem = new Semaphore(0);
+    private final Semaphore fizzbuzzSem = new Semaphore(0);
 
     /**
      * Creates a FizzBuzz coordinator that prints values from {@code 1} to {@code n}.

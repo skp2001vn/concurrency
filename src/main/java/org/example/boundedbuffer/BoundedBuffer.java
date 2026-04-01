@@ -44,7 +44,6 @@ public class BoundedBuffer<T> {
             }
 
             queue.offer(item);
-            System.out.println("Produced: " + item);
             notEmpty.signal();
         } finally {
             lock.unlock();
@@ -65,7 +64,6 @@ public class BoundedBuffer<T> {
             }
 
             T item = queue.poll();
-            System.out.println("Consumed: " + item);
             notFull.signal();
 
             return item;

@@ -81,14 +81,11 @@ public class AsyncJobQueue {
 
                 try {
                     job.getTask().run();
-                    System.out.println("Job success: " + job.getId());
                 } catch (Exception e) {
                     job.incrementRetry();
                     if (job.getRetries() <= maxRetries) {
-                        System.out.println("Retry job: " + job.getId());
                         submit(job);
                     } else {
-                        System.out.println("Job moved to DLQ: " + job.getId());
                         moveToDLQ(job);
                     }
                 }

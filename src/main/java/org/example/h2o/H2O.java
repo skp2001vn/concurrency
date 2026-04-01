@@ -10,8 +10,8 @@ import java.util.concurrent.Semaphore;
  * oxygen thread is released. After oxygen runs, permits are restored for the next molecule.
  */
 public class H2O {
-    private Semaphore hydrogen = new Semaphore(2);
-    private Semaphore oxygen = new Semaphore(0);
+    private final Semaphore hydrogen = new Semaphore(2);
+    private final Semaphore oxygen = new Semaphore(0);
 
     /**
      * Creates a new coordinator for forming water molecules.
