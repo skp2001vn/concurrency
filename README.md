@@ -3,6 +3,7 @@
 A Java 17 Maven project that implements and tests a set of concurrency patterns, synchronization primitives, and thread-safe data structures.
 
 The codebase is organized as small, focused introductory examples such as thread pools, rate limiters, caches, connection pools,  barriers, read-write locks, bounded buffers, job queues. Each example demonstrates a concurrency technique and is covered by JUnit 5 tests.
+
 The repository also includes an [AGENTS.md](AGENTS.md) guide to keep AI-assisted and human contributions consistent across examples, tests, and documentation.
 
 ## Requirements
