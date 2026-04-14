@@ -36,6 +36,7 @@ mvn test
 | `ratelimiter` | Sliding-window rate limiting with synchronized and lock-based variants |
 | `asyncjobqueue` | Asynchronous job queue with retries and dead-letter queue |
 | `advancedjobqueue` | Priority and scheduled job execution with retries, cancellation, and dead-letter queue |
+| `stampedaccount` | Bank account guarded by `StampedLock` with optimistic reads and consistent snapshots |
 | `webcrawler` | Concurrent crawling of same-host URLs with a thread pool, deduplication, and cycle handling |
 
 ## Agent Workflow
