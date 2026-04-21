@@ -33,6 +33,7 @@ mvn test
 | `simplecountdownlatch` | One-shot coordination that releases waiters after a fixed number of countdowns |
 | `fizzbuzz` | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
 | `h2o` | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
+| `diningphilosophers` | Deadlock-free fork coordination that still allows non-neighboring philosophers to eat concurrently |
 | `inventory` | Two thread-safe inventory implementations: lock-based and atomic/CAS |
 | `ratelimiter` | Sliding-window rate limiting with synchronized and lock-based variants |
 | `asyncjobqueue` | Asynchronous job queue with retries and dead-letter queue |
