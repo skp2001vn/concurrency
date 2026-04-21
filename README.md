@@ -17,15 +17,6 @@ The repository also includes an [AGENTS.md](AGENTS.md) guide to keep AI-assisted
 mvn test
 ```
 
-## IntelliJ On macOS
-
-1. Install a JDK 21 on macOS if it is not already available.
-2. In IntelliJ IDEA, open `File | Project Structure...` and set:
-   - `Project SDK` to a JDK 21
-   - `Language level` to `SDK default` or Java 21
-3. Reimport the Maven project from `pom.xml` so IntelliJ picks up the Java 21 compiler settings.
-4. In `Settings | Build, Execution, Deployment | Build Tools | Maven`, make sure the Maven JDK is also set to Java 21.
-
 ## Implemented Examples
 
 | Example | What it demonstrates |
