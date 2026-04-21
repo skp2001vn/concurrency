@@ -16,6 +16,9 @@ class DiningPhilosophersTest {
 
     private static final Runnable NO_OP = () -> {};
 
+    /**
+     * Verifies that callbacks are invoked in the documented fork and eating order.
+     */
     @Test
     void executesCallbacksInExpectedOrder() throws InterruptedException {
         DiningPhilosophers diningPhilosophers = new DiningPhilosophers();
@@ -33,6 +36,9 @@ class DiningPhilosophersTest {
         assertEquals(List.of("pick-left", "pick-right", "eat", "put-right", "put-left"), steps);
     }
 
+    /**
+     * Verifies that neighboring philosophers cannot eat concurrently because they share a fork.
+     */
     @Test
     void neighboringPhilosophersCannotEatAtTheSameTime() throws InterruptedException {
         DiningPhilosophers diningPhilosophers = new DiningPhilosophers();
@@ -76,6 +82,9 @@ class DiningPhilosophersTest {
         assertEquals(0, secondFinished.getCount());
     }
 
+    /**
+     * Verifies that philosophers with disjoint forks can eat at the same time.
+     */
     @Test
     void nonNeighboringPhilosophersCanEatConcurrently() throws InterruptedException {
         DiningPhilosophers diningPhilosophers = new DiningPhilosophers();
@@ -118,6 +127,9 @@ class DiningPhilosophersTest {
         assertFalse(second.isAlive());
     }
 
+    /**
+     * Verifies that repeated meals across all philosophers complete without deadlock.
+     */
     @Test
     void allPhilosophersMakeProgressWithoutDeadlock() throws InterruptedException {
         DiningPhilosophers diningPhilosophers = new DiningPhilosophers();
@@ -165,6 +177,9 @@ class DiningPhilosophersTest {
         }
     }
 
+    /**
+     * Verifies that philosopher identifiers outside the valid range are rejected.
+     */
     @Test
     void rejectsInvalidPhilosopherId() {
         DiningPhilosophers diningPhilosophers = new DiningPhilosophers();

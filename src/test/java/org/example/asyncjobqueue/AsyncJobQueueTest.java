@@ -22,6 +22,9 @@ class AsyncJobQueueTest {
         }
     }
 
+    /**
+     * Verifies that a submitted job is executed by a worker.
+     */
     @Test
     void executesSubmittedJob() throws InterruptedException {
         queue = new AsyncJobQueue(1, 0);
@@ -32,6 +35,9 @@ class AsyncJobQueueTest {
         assertTrue(ran.await(1, TimeUnit.SECONDS));
     }
 
+    /**
+     * Verifies that a failed job is retried until it eventually succeeds.
+     */
     @Test
     void retriesFailedJobBeforeSucceeding() throws InterruptedException {
         queue = new AsyncJobQueue(1, 2);
@@ -50,6 +56,9 @@ class AsyncJobQueueTest {
         assertTrue(queue.getDeadLetterQueue().isEmpty());
     }
 
+    /**
+     * Verifies that permanently failing jobs are moved to the dead-letter queue.
+     */
     @Test
     void movesFailedJobToDeadLetterQueueAfterExhaustingRetries() throws InterruptedException {
         queue = new AsyncJobQueue(1, 1);
@@ -64,6 +73,9 @@ class AsyncJobQueueTest {
         assertEquals(2, failedJob.getRetries());
     }
 
+    /**
+     * Verifies that shutdown prevents queued follow-up work from being executed.
+     */
     @Test
     void shutdownStopsWorkersFromExecutingLaterTasks() throws InterruptedException {
         queue = new AsyncJobQueue(1, 0);

@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 class LockBasedRateLimiterTest {
 
+    /**
+     * Verifies that requests beyond the limit are rejected within the active time window.
+     */
     @Test
     void blocksRequestsAfterLimitIsReachedWithinWindow() {
         LockBasedRateLimiter limiter = new LockBasedRateLimiter(2, 200);
@@ -16,6 +19,9 @@ class LockBasedRateLimiterTest {
         assertFalse(limiter.allowRequest("user1"));
     }
 
+    /**
+     * Verifies that requests are accepted again after the rate-limit window expires.
+     */
     @Test
     void allowsRequestsAgainAfterWindowExpires() throws InterruptedException {
         LockBasedRateLimiter limiter = new LockBasedRateLimiter(1, 100);
@@ -28,6 +34,9 @@ class LockBasedRateLimiterTest {
         assertTrue(limiter.allowRequest("user1"));
     }
 
+    /**
+     * Verifies that each user is rate-limited independently.
+     */
     @Test
     void tracksLimitsSeparatelyPerUser() {
         LockBasedRateLimiter limiter = new LockBasedRateLimiter(1, 200);

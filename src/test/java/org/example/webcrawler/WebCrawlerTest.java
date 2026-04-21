@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 class WebCrawlerTest {
 
+    /**
+     * Verifies that crawling stays within the starting hostname.
+     */
     @Test
     void crawlsOnlyUrlsUnderTheSameHostname() {
         FakeHtmlParser parser = new FakeHtmlParser(Map.of(
@@ -37,6 +40,9 @@ class WebCrawlerTest {
                 sort(crawled));
     }
 
+    /**
+     * Verifies that the crawler deduplicates URLs reached from multiple pages.
+     */
     @Test
     void doesNotRevisitDuplicateUrlsReachedFromMultiplePages() {
         FakeHtmlParser parser = new FakeHtmlParser(Map.of(
@@ -59,6 +65,9 @@ class WebCrawlerTest {
         assertEquals(1, parser.getInvocationCount("http://example.org/shared"));
     }
 
+    /**
+     * Verifies that cyclic link graphs are handled without infinite crawling.
+     */
     @Test
     void handlesCyclesWithoutLoopingForever() {
         FakeHtmlParser parser = new FakeHtmlParser(Map.of(
@@ -76,6 +85,9 @@ class WebCrawlerTest {
                 sort(crawled));
     }
 
+    /**
+     * Verifies that crawling continues even after workers temporarily observe an empty queue.
+     */
     @Test
     void continuesCrawlingWhenMoreUrlsAppearAfterATemporaryEmptyQueue() {
         BlockingFakeHtmlParser parser = new BlockingFakeHtmlParser(Map.of(

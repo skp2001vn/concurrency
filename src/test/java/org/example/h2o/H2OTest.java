@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 class H2OTest {
 
+    /**
+     * Verifies that two hydrogens and one oxygen form a single valid molecule.
+     */
     @Test
     void formsSingleWaterMolecule() throws InterruptedException {
         List<String> output = runH2O(2, 1);
@@ -20,6 +23,9 @@ class H2OTest {
         assertEquals(List.of("H", "H", "O"), output);
     }
 
+    /**
+     * Verifies that repeated coordination produces valid water molecules in fixed groups.
+     */
     @Test
     void formsMultipleWaterMoleculesInValidGroups() throws InterruptedException {
         List<String> output = runH2O(6, 3);
@@ -31,6 +37,9 @@ class H2OTest {
         }
     }
 
+    /**
+     * Verifies that oxygen remains blocked until two hydrogen threads have arrived.
+     */
     @Test
     void oxygenWaitsUntilTwoHydrogensArrive() throws InterruptedException {
         H2O h2o = new H2O();

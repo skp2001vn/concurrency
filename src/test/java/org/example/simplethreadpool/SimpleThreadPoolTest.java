@@ -23,6 +23,9 @@ class SimpleThreadPoolTest {
         }
     }
 
+    /**
+     * Verifies that submitted tasks are executed by the pool.
+     */
     @Test
     void executesSubmittedTasks() throws InterruptedException {
         pool = new SimpleThreadPool(2);
@@ -40,6 +43,9 @@ class SimpleThreadPoolTest {
         assertEquals(3, counter.get());
     }
 
+    /**
+     * Verifies that the pool reuses a fixed worker set instead of creating new threads per task.
+     */
     @Test
     void reusesFixedNumberOfWorkers() throws InterruptedException {
         pool = new SimpleThreadPool(2);
@@ -66,6 +72,9 @@ class SimpleThreadPoolTest {
         assertTrue(started.await(1, TimeUnit.SECONDS));
     }
 
+    /**
+     * Verifies that task submission is rejected after shutdown.
+     */
     @Test
     void rejectsNewTasksAfterShutdown() {
         pool = new SimpleThreadPool(1);

@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 class AtomicInventoryServiceTest {
 
+    /**
+     * Verifies that purchasing an unknown product reports failure.
+     */
     @Test
     void returnsFalseForUnknownProduct() {
         AtomicInventoryService inventory = new AtomicInventoryService();
@@ -22,6 +25,9 @@ class AtomicInventoryServiceTest {
         assertFalse(inventory.purchase("missing"));
     }
 
+    /**
+     * Verifies that purchases succeed only up to the configured stock level.
+     */
     @Test
     void allowsPurchasesUpToAvailableStock() {
         AtomicInventoryService inventory = new AtomicInventoryService();
@@ -32,6 +38,9 @@ class AtomicInventoryServiceTest {
         assertFalse(inventory.purchase("p1"));
     }
 
+    /**
+     * Verifies that concurrent atomic purchases never oversell the available inventory.
+     */
     @Test
     void concurrentPurchasesDoNotExceedAvailableStock() throws Exception {
         AtomicInventoryService inventory = new AtomicInventoryService();

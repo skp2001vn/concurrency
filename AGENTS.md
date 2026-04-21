@@ -48,6 +48,7 @@ Each example should remain:
 
 - Add class-level Javadoc for each example class.
 - Add method-level Javadoc for public methods.
+- Add concise Javadoc for each `@Test` method so future readers can quickly see the behavior or guarantee being verified.
 - Javadoc should explain:
   - the concurrency problem being solved
   - the coordination strategy used
@@ -63,6 +64,7 @@ Each example should remain:
   - edge cases
   - concurrency coordination behavior
   - regressions around ordering, blocking, deduplication, or termination when relevant
+- Add short, behavior-focused Javadoc above each test case rather than relying only on method names.
 - Prefer deterministic tests over timing-sensitive tests.
 - Use helper fakes/stubs where appropriate instead of external dependencies.
 - After changes, run:
@@ -88,7 +90,7 @@ mvn test
 
 1. Add production code under `src/main/java/org/example/<example>/`
 2. Add tests under `src/test/java/org/example/<example>/`
-3. Add Javadoc to public classes and methods
+3. Add Javadoc to public classes and methods, plus concise Javadoc for each test case
 4. Update `README.md`
 5. Run `mvn test`
 

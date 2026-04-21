@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 
 class BoundedBufferTest {
 
+    /**
+     * Verifies that buffered items are consumed in first-in, first-out order.
+     */
     @Test
     void consumesItemsInFifoOrder() throws InterruptedException {
         BoundedBuffer<Integer> buffer = new BoundedBuffer<>(2);
@@ -22,6 +25,9 @@ class BoundedBufferTest {
         assertEquals(2, buffer.consume());
     }
 
+    /**
+     * Verifies that consumers block until a producer adds an item.
+     */
     @Test
     void consumerWaitsUntilAnItemIsProduced() throws InterruptedException {
         BoundedBuffer<String> buffer = new BoundedBuffer<>(1);
@@ -50,6 +56,9 @@ class BoundedBufferTest {
         assertEquals("item", consumed.get());
     }
 
+    /**
+     * Verifies that producers block when the buffer is full until capacity is freed.
+     */
     @Test
     void producerWaitsUntilSpaceBecomesAvailable() throws InterruptedException {
         BoundedBuffer<Integer> buffer = new BoundedBuffer<>(1);

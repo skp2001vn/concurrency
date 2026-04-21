@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 
 class ConnectionPoolTest {
 
+    /**
+     * Verifies that a released connection can be acquired again from the pool.
+     */
     @Test
     void acquiresAndReleasesConnection() throws InterruptedException {
         ConnectionPool pool = new ConnectionPool(1, 1);
@@ -26,6 +29,9 @@ class ConnectionPoolTest {
         assertEquals(first.getId(), second.getId());
     }
 
+    /**
+     * Verifies that acquisition returns {@code null} when no connection is available before timeout.
+     */
     @Test
     void returnsNullWhenAcquireTimesOut() throws InterruptedException {
         ConnectionPool pool = new ConnectionPool(1, 1);
@@ -38,6 +44,9 @@ class ConnectionPoolTest {
         pool.release(held);
     }
 
+    /**
+     * Verifies that a waiting acquirer proceeds after another thread releases a connection.
+     */
     @Test
     void waitingAcquireSucceedsAfterConnectionIsReleased() throws InterruptedException {
         ConnectionPool pool = new ConnectionPool(1, 1);
@@ -66,6 +75,9 @@ class ConnectionPoolTest {
         assertEquals(held.getId(), acquired.get().getId());
     }
 
+    /**
+     * Verifies that the pool rejects additional waiters once the configured limit is reached.
+     */
     @Test
     void rejectsAcquireWhenTooManyThreadsAreAlreadyWaiting() throws InterruptedException {
         ConnectionPool pool = new ConnectionPool(1, 1);

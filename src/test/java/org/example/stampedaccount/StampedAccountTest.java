@@ -17,11 +17,17 @@ import org.junit.jupiter.api.Test;
 
 class StampedAccountTest {
 
+    /**
+     * Verifies that account creation rejects a negative opening balance.
+     */
     @Test
     void rejectsNegativeOpeningBalance() {
         assertThrows(IllegalArgumentException.class, () -> new StampedAccount(-1));
     }
 
+    /**
+     * Verifies that deposits increase both the balance and the snapshot version.
+     */
     @Test
     void depositIncreasesBalanceAndVersion() {
         StampedAccount account = new StampedAccount(100);
@@ -33,6 +39,9 @@ class StampedAccountTest {
         assertEquals(1, snapshot.version());
     }
 
+    /**
+     * Verifies that withdrawals fail without changing state when funds are insufficient.
+     */
     @Test
     void withdrawFailsWhenFundsAreInsufficient() {
         StampedAccount account = new StampedAccount(100);
@@ -44,6 +53,9 @@ class StampedAccountTest {
         assertEquals(0, snapshot.version());
     }
 
+    /**
+     * Verifies that successful withdrawals reduce balance and advance the version.
+     */
     @Test
     void withdrawDecreasesBalanceAndIncrementsVersion() {
         StampedAccount account = new StampedAccount(100);
@@ -55,6 +67,9 @@ class StampedAccountTest {
         assertEquals(1, snapshot.version());
     }
 
+    /**
+     * Verifies that zero and negative deposit or withdrawal amounts are rejected.
+     */
     @Test
     void rejectsNonPositiveAmounts() {
         StampedAccount account = new StampedAccount(100);
@@ -65,6 +80,9 @@ class StampedAccountTest {
         assertThrows(IllegalArgumentException.class, () -> account.withdraw(-1));
     }
 
+    /**
+     * Verifies that concurrent deposits produce the expected final balance and version.
+     */
     @Test
     void concurrentDepositsProduceExpectedBalance() throws Exception {
         StampedAccount account = new StampedAccount(0);
@@ -80,6 +98,9 @@ class StampedAccountTest {
         assertEquals(deposits, snapshot.version());
     }
 
+    /**
+     * Verifies that concurrent withdrawals cannot overdraw the account.
+     */
     @Test
     void concurrentWithdrawalsDoNotOverdraw() throws Exception {
         StampedAccount account = new StampedAccount(1_000);
@@ -97,6 +118,9 @@ class StampedAccountTest {
         assertEquals(10, snapshot.version());
     }
 
+    /**
+     * Verifies that snapshots remain internally consistent while writes happen concurrently.
+     */
     @Test
     void snapshotsStayConsistentDuringConcurrentWrites() throws Exception {
         StampedAccount account = new StampedAccount(0);

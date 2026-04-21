@@ -15,6 +15,9 @@ import org.junit.jupiter.api.Test;
 
 class LockBasedInventoryServiceTest {
 
+    /**
+     * Verifies that purchasing an unknown product reports failure.
+     */
     @Test
     void returnsFalseForUnknownProduct() {
         LockBasedInventoryService inventory = new LockBasedInventoryService();
@@ -22,6 +25,9 @@ class LockBasedInventoryServiceTest {
         assertFalse(inventory.purchase("missing"));
     }
 
+    /**
+     * Verifies that purchases succeed only up to the configured stock level.
+     */
     @Test
     void allowsPurchasesUpToAvailableStock() {
         LockBasedInventoryService inventory = new LockBasedInventoryService();
@@ -32,6 +38,9 @@ class LockBasedInventoryServiceTest {
         assertFalse(inventory.purchase("p1"));
     }
 
+    /**
+     * Verifies that concurrent lock-based purchases never oversell the available inventory.
+     */
     @Test
     void concurrentPurchasesDoNotExceedAvailableStock() throws Exception {
         LockBasedInventoryService inventory = new LockBasedInventoryService();

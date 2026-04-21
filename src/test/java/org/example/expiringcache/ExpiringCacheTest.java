@@ -18,6 +18,9 @@ class ExpiringCacheTest {
         }
     }
 
+    /**
+     * Verifies that an entry remains visible before its time-to-live expires.
+     */
     @Test
     void returnsValueBeforeExpiration() {
         cache = new ExpiringCache<>(50, TimeUnit.MILLISECONDS);
@@ -27,6 +30,9 @@ class ExpiringCacheTest {
         assertEquals("Alice", cache.get("user"));
     }
 
+    /**
+     * Verifies that an expired entry is treated as absent when accessed.
+     */
     @Test
     void returnsNullAfterEntryExpiresOnAccess() throws InterruptedException {
         cache = new ExpiringCache<>(50, TimeUnit.MILLISECONDS);
@@ -37,6 +43,9 @@ class ExpiringCacheTest {
         assertNull(cache.get("user"));
     }
 
+    /**
+     * Verifies that writing the same key again replaces both its value and expiration time.
+     */
     @Test
     void putOverwritesValueAndExpiration() throws InterruptedException {
         cache = new ExpiringCache<>(50, TimeUnit.MILLISECONDS);
@@ -49,6 +58,9 @@ class ExpiringCacheTest {
         assertEquals("Bob", cache.get("user"));
     }
 
+    /**
+     * Verifies that background cleanup eventually removes expired entries.
+     */
     @Test
     void backgroundCleanupRemovesExpiredEntry() throws InterruptedException {
         cache = new ExpiringCache<>(25, TimeUnit.MILLISECONDS);

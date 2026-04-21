@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 
 class MemoizerTest {
 
+    /**
+     * Verifies that repeated computations for the same key reuse the first result.
+     */
     @Test
     void reusesComputedValueForSameKey() throws Exception {
         Memoizer<String, String> memoizer = new Memoizer<>();
@@ -35,6 +38,9 @@ class MemoizerTest {
         assertEquals(1, calls.get());
     }
 
+    /**
+     * Verifies that concurrent callers share one in-flight computation per key.
+     */
     @Test
     void concurrentRequestsShareSingleComputation() throws Exception {
         Memoizer<String, String> memoizer = new Memoizer<>();
@@ -62,6 +68,9 @@ class MemoizerTest {
         assertEquals(1, calls.get());
     }
 
+    /**
+     * Verifies that a failed computation is retained as a failed future for later callers.
+     */
     @Test
     void failedComputationIsCachedAsFailedFuture() throws Exception {
         Memoizer<String, String> memoizer = new Memoizer<>();

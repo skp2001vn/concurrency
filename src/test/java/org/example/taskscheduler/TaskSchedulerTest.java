@@ -22,6 +22,9 @@ class TaskSchedulerTest {
         }
     }
 
+    /**
+     * Verifies that a task executes only after its configured delay.
+     */
     @Test
     void executesTaskAfterDelay() throws InterruptedException {
         scheduler = new TaskScheduler();
@@ -38,6 +41,9 @@ class TaskSchedulerTest {
         assertTrue(executedAt[0] - start >= 100);
     }
 
+    /**
+     * Verifies that tasks run in deadline order rather than submission order.
+     */
     @Test
     void executesEarlierTasksBeforeLaterTasks() throws InterruptedException {
         scheduler = new TaskScheduler();
@@ -61,6 +67,9 @@ class TaskSchedulerTest {
         assertEquals(List.of("early", "middle", "late"), order);
     }
 
+    /**
+     * Verifies that scheduling new work after shutdown is rejected.
+     */
     @Test
     void rejectsNewTasksAfterShutdown() {
         scheduler = new TaskScheduler();
@@ -72,6 +81,9 @@ class TaskSchedulerTest {
         assertEquals("Scheduler is shut down", thrown.getMessage());
     }
 
+    /**
+     * Verifies that submitting a new task is not blocked by another task that is currently running.
+     */
     @Test
     void runningTaskDoesNotBlockSubmittingAnotherTask() throws InterruptedException {
         scheduler = new TaskScheduler();

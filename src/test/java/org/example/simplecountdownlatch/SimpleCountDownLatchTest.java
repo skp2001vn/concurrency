@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 
 class SimpleCountDownLatchTest {
 
+    /**
+     * Verifies that waiting threads remain blocked until the latch count reaches zero.
+     */
     @Test
     void waitsUntilCountReachesZero() throws InterruptedException {
         SimpleCountDownLatch latch = new SimpleCountDownLatch(2);
@@ -51,6 +54,9 @@ class SimpleCountDownLatchTest {
         assertEquals(0, latch.getCount());
     }
 
+    /**
+     * Verifies that awaiting on an already open latch returns immediately.
+     */
     @Test
     void awaitReturnsImmediatelyWhenCountIsZero() throws InterruptedException {
         SimpleCountDownLatch latch = new SimpleCountDownLatch(0);
@@ -60,6 +66,9 @@ class SimpleCountDownLatchTest {
         assertEquals(0, latch.getCount());
     }
 
+    /**
+     * Verifies that extra countdown calls after opening the latch do not change its state.
+     */
     @Test
     void countDownAfterLatchIsOpenHasNoEffect() throws InterruptedException {
         SimpleCountDownLatch latch = new SimpleCountDownLatch(1);
@@ -71,6 +80,9 @@ class SimpleCountDownLatchTest {
         assertEquals(0, latch.getCount());
     }
 
+    /**
+     * Verifies that negative initial counts are rejected.
+     */
     @Test
     void rejectsNegativeInitialCount() {
         IllegalArgumentException thrown = assertThrows(

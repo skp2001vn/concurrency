@@ -24,6 +24,9 @@ class AdvancedJobQueueTest {
         }
     }
 
+    /**
+     * Verifies that a submitted job is executed by the queue.
+     */
     @Test
     void executesSubmittedJob() throws InterruptedException {
         queue = new AdvancedJobQueue(1, 0, 25);
@@ -34,6 +37,9 @@ class AdvancedJobQueueTest {
         assertTrue(ran.await(1, TimeUnit.SECONDS));
     }
 
+    /**
+     * Verifies that cancelling a queued job prevents it from running.
+     */
     @Test
     void cancelledJobDoesNotRun() throws InterruptedException {
         queue = new AdvancedJobQueue(1, 0, 25);
@@ -47,6 +53,9 @@ class AdvancedJobQueueTest {
         assertFalse(ran.get());
     }
 
+    /**
+     * Verifies that a failed job is retried and can later complete successfully.
+     */
     @Test
     void retriesFailedJobBeforeSucceeding() throws InterruptedException {
         queue = new AdvancedJobQueue(1, 2, 25);
@@ -65,6 +74,9 @@ class AdvancedJobQueueTest {
         assertTrue(queue.getDeadLetterQueue().isEmpty());
     }
 
+    /**
+     * Verifies that a job is moved to the dead-letter queue after using all retries.
+     */
     @Test
     void movesJobToDeadLetterQueueAfterExhaustingRetries() throws InterruptedException {
         queue = new AdvancedJobQueue(1, 1, 25);
@@ -80,6 +92,9 @@ class AdvancedJobQueueTest {
         assertEquals(2, failedJob.retries);
     }
 
+    /**
+     * Verifies that a ready job can run before an earlier submission with a future schedule time.
+     */
     @Test
     void immediateJobIsNotBlockedBehindDelayedJob() throws InterruptedException {
         queue = new AdvancedJobQueue(1, 0, 25);

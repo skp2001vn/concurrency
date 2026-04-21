@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 class SynchronizedRateLimiterTest {
 
+    /**
+     * Verifies that requests beyond the limit are rejected within the active time window.
+     */
     @Test
     void blocksRequestsAfterLimitIsReachedWithinWindow() {
         SynchronizedRateLimiter limiter = new SynchronizedRateLimiter(2, 200);
@@ -16,6 +19,9 @@ class SynchronizedRateLimiterTest {
         assertFalse(limiter.allowRequest("user1"));
     }
 
+    /**
+     * Verifies that requests are accepted again after the rate-limit window expires.
+     */
     @Test
     void allowsRequestsAgainAfterWindowExpires() throws InterruptedException {
         SynchronizedRateLimiter limiter = new SynchronizedRateLimiter(1, 100);
@@ -28,6 +34,9 @@ class SynchronizedRateLimiterTest {
         assertTrue(limiter.allowRequest("user1"));
     }
 
+    /**
+     * Verifies that each user is rate-limited independently.
+     */
     @Test
     void tracksLimitsSeparatelyPerUser() {
         SynchronizedRateLimiter limiter = new SynchronizedRateLimiter(1, 200);

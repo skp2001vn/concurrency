@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 
 class SimpleCyclicBarrierTest {
 
+    /**
+     * Verifies that threads block at the barrier until the required number arrive.
+     */
     @Test
     void waitsUntilRequiredNumberOfThreadsArrive() throws InterruptedException {
         SimpleCyclicBarrier barrier = new SimpleCyclicBarrier(3);
@@ -55,6 +58,9 @@ class SimpleCyclicBarrierTest {
         assertFalse(releaser.isAlive());
     }
 
+    /**
+     * Verifies that the barrier resets and can be used again by a later generation.
+     */
     @Test
     void canBeReusedAcrossGenerations() throws InterruptedException {
         SimpleCyclicBarrier barrier = new SimpleCyclicBarrier(2);

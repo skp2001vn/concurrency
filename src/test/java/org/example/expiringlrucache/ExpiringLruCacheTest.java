@@ -7,6 +7,9 @@ import org.junit.jupiter.api.Test;
 
 class ExpiringLruCacheTest {
 
+    /**
+     * Verifies that a cached value is returned while its TTL is still valid.
+     */
     @Test
     void returnsValueBeforeExpiration() {
         ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);
@@ -16,6 +19,9 @@ class ExpiringLruCacheTest {
         assertEquals("A", cache.get(1));
     }
 
+    /**
+     * Verifies that expired entries are no longer returned from the cache.
+     */
     @Test
     void returnsNullAfterExpiration() throws InterruptedException {
         ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);
@@ -26,6 +32,9 @@ class ExpiringLruCacheTest {
         assertNull(cache.get(1));
     }
 
+    /**
+     * Verifies that inserting beyond capacity evicts the least recently used entry.
+     */
     @Test
     void evictsLeastRecentlyUsedEntryWhenCapacityExceeded() {
         ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);
@@ -39,6 +48,9 @@ class ExpiringLruCacheTest {
         assertEquals("C", cache.get(3));
     }
 
+    /**
+     * Verifies that reads refresh recency and protect the accessed entry from the next eviction.
+     */
     @Test
     void getRefreshesRecencyBeforeEviction() {
         ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);
@@ -54,6 +66,9 @@ class ExpiringLruCacheTest {
         assertEquals("C", cache.get(3));
     }
 
+    /**
+     * Verifies that overwriting an existing key updates both the stored value and TTL.
+     */
     @Test
     void putOnExistingKeyUpdatesValueAndTtl() throws InterruptedException {
         ExpiringLruCache<Integer, String> cache = new ExpiringLruCache<>(2);

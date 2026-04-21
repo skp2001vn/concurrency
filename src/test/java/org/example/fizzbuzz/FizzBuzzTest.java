@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 
 class FizzBuzzTest {
 
+    /**
+     * Verifies that the coordinator produces the expected sequence through fifteen.
+     */
     @Test
     void producesExpectedSequenceUpToFifteen() throws InterruptedException {
         List<String> output = runFizzBuzz(15);
@@ -22,11 +25,17 @@ class FizzBuzzTest {
                 output);
     }
 
+    /**
+     * Verifies that small inputs still emit plain numbers in order.
+     */
     @Test
     void handlesSmallInputWithoutFizzOrBuzzValues() throws InterruptedException {
         assertEquals(List.of("1", "2"), runFizzBuzz(2));
     }
 
+    /**
+     * Verifies that processing continues correctly after a fizzbuzz output.
+     */
     @Test
     void continuesAfterAFizzBuzzValue() throws InterruptedException {
         assertEquals(

@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 
 class SimpleReadWriteLockTest {
 
+    /**
+     * Verifies that multiple readers can hold the read lock concurrently.
+     */
     @Test
     void allowsMultipleReadersAtTheSameTime() throws InterruptedException {
         SimpleReadWriteLock lock = new SimpleReadWriteLock();
@@ -46,6 +49,9 @@ class SimpleReadWriteLockTest {
         assertEquals(2, maxConcurrentReaders.get());
     }
 
+    /**
+     * Verifies that readers wait while a writer holds the write lock.
+     */
     @Test
     void writerBlocksReadersUntilWriteLockIsReleased() throws InterruptedException {
         SimpleReadWriteLock lock = new SimpleReadWriteLock();
@@ -89,6 +95,9 @@ class SimpleReadWriteLockTest {
         assertFalse(reader.isAlive());
     }
 
+    /**
+     * Verifies that a queued writer prevents newly arriving readers from barging ahead.
+     */
     @Test
     void waitingWriterPreventsNewReadersFromEntering() throws InterruptedException {
         SimpleReadWriteLock lock = new SimpleReadWriteLock();
