@@ -30,6 +30,7 @@ mvn test
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
 | `expiringcache` | TTL cache with background cleanup |
 | `expiringlrucache` | Cache with TTL and least-recently-used eviction |
+| `simplecountdownlatch` | One-shot coordination that releases waiters after a fixed number of countdowns |
 | `fizzbuzz` | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
 | `h2o` | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
 | `inventory` | Two thread-safe inventory implementations: lock-based and atomic/CAS |
