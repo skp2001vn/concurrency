@@ -12,7 +12,7 @@ Each example should remain:
 
 ## Tech Stack
 
-- Java 17
+- Java 21
 - Maven
 - JUnit 5
 - Lombok

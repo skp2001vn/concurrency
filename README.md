@@ -1,6 +1,6 @@
 # Concurrency Examples
 
-A Java 17 Maven project that implements and tests a set of concurrency patterns, synchronization primitives, and thread-safe data structures.
+A Java 21 Maven project that implements and tests a set of concurrency patterns, synchronization primitives, and thread-safe data structures.
 
 The codebase is organized as small, focused introductory examples such as thread pools, rate limiters, caches, connection pools,  barriers, read-write locks, bounded buffers, job queues. Each example demonstrates a concurrency technique and is covered by JUnit 5 tests.
 
@@ -8,7 +8,7 @@ The repository also includes an [AGENTS.md](AGENTS.md) guide to keep AI-assisted
 
 ## Requirements
 
-- Java 17+
+- Java 21+
 - Maven 3.9+
 
 ## Build And Test
@@ -16,6 +16,15 @@ The repository also includes an [AGENTS.md](AGENTS.md) guide to keep AI-assisted
 ```bash
 mvn test
 ```
+
+## IntelliJ On macOS
+
+1. Install a JDK 21 on macOS if it is not already available.
+2. In IntelliJ IDEA, open `File | Project Structure...` and set:
+   - `Project SDK` to a JDK 21
+   - `Language level` to `SDK default` or Java 21
+3. Reimport the Maven project from `pom.xml` so IntelliJ picks up the Java 21 compiler settings.
+4. In `Settings | Build, Execution, Deployment | Build Tools | Maven`, make sure the Maven JDK is also set to Java 21.
 
 ## Implemented Examples
 
