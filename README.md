@@ -23,6 +23,7 @@ mvn test
 | --- | --- |
 | `boundedbuffer` | Producer-consumer coordination with `ReentrantLock` and `Condition`s |
 | `simplethreadpool` | Fixed-size thread pool with task queue and worker threads |
+| `forkjoinmergesort` | Divide-and-conquer sorting with `ForkJoinPool`, recursive tasks, and parallel merges |
 | `taskscheduler` | Delayed task execution with a priority queue and worker thread |
 | `simplecyclicbarrier` | Reusable barrier that releases threads together by generation |
 | `simplereadwritelock` | Basic reader-writer lock with writer preference |
