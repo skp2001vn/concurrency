@@ -26,6 +26,7 @@ mvn test
 | `forkjoinmergesort` | Divide-and-conquer sorting with `ForkJoinPool`, recursive tasks, and parallel merges |
 | `taskscheduler` | Delayed task execution with a priority queue and worker thread |
 | `simplecyclicbarrier` | Reusable barrier that releases threads together by generation |
+| `phaserexample` | Multi-phase coordination with `Phaser`, including late registration and deregistration |
 | `simplereadwritelock` | Basic reader-writer lock with writer preference |
 | `connectionpool` | Connection acquisition and release with timeout, fairness, and wait limits |
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
