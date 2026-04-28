@@ -31,6 +31,7 @@ mvn test
 | `simplereadwritelock` | Basic reader-writer lock with writer preference |
 | `connectionpool` | Connection acquisition and release with timeout, fairness, and wait limits |
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
+| `parallelreport` | One-shot report section fan-out/fan-in with `CountDownLatch` and partial-failure collection |
 | `profileaggregator` | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
 | `virtualthreadfetcher` | Blocking bulk fetches with one virtual thread per resource and ordered fan-in |
 | `expiringcache` | TTL cache with background cleanup |
