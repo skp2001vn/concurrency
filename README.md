@@ -31,6 +31,7 @@ mvn test
 | `simplereadwritelock` | Basic reader-writer lock with writer preference |
 | `connectionpool` | Connection acquisition and release with timeout, fairness, and wait limits |
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
+| `profileaggregator` | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
 | `expiringcache` | TTL cache with background cleanup |
 | `expiringlrucache` | Cache with TTL and least-recently-used eviction |
 | `simplecountdownlatch` | One-shot coordination that releases waiters after a fixed number of countdowns |
