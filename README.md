@@ -32,6 +32,7 @@ mvn test
 | `connectionpool` | Connection acquisition and release with timeout, fairness, and wait limits |
 | `memoizer` | Shared computation results via `Future` and `FutureTask` |
 | `profileaggregator` | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
+| `virtualthreadfetcher` | Blocking bulk fetches with one virtual thread per resource and ordered fan-in |
 | `expiringcache` | TTL cache with background cleanup |
 | `expiringlrucache` | Cache with TTL and least-recently-used eviction |
 | `simplecountdownlatch` | One-shot coordination that releases waiters after a fixed number of countdowns |
