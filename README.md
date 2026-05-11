@@ -21,31 +21,31 @@ mvn test
 
 | Example | What it demonstrates |
 | --- | --- |
-| `boundedbuffer` | Producer-consumer coordination with `ReentrantLock` and `Condition`s |
-| `simplethreadpool` | Fixed-size thread pool with task queue and worker threads |
-| `forkjoinmergesort` | Divide-and-conquer sorting with `ForkJoinPool`, recursive tasks, and parallel merges |
-| `exchangerexample` | Two-thread rendezvous and value exchange with `Exchanger` |
-| `taskscheduler` | Delayed task execution with a priority queue and worker thread |
-| `simplecyclicbarrier` | Reusable barrier that releases threads together by generation |
-| `phaserexample` | Multi-phase coordination with `Phaser`, including late registration and deregistration |
-| `simplereadwritelock` | Basic reader-writer lock with writer preference |
-| `connectionpool` | Connection acquisition and release with timeout, fairness, and wait limits |
-| `memoizer` | Shared computation results via `Future` and `FutureTask` |
-| `parallelreport` | One-shot report section fan-out/fan-in with `CountDownLatch` and partial-failure collection |
-| `profileaggregator` | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
-| `virtualthreadfetcher` | Blocking bulk fetches with one virtual thread per resource and ordered fan-in |
-| `expiringcache` | TTL cache with background cleanup |
-| `expiringlrucache` | Cache with TTL and least-recently-used eviction |
-| `simplecountdownlatch` | One-shot coordination that releases waiters after a fixed number of countdowns |
-| `fizzbuzz` | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
-| `h2o` | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
-| `diningphilosophers` | Deadlock-free fork coordination that still allows non-neighboring philosophers to eat concurrently |
-| `inventory` | Two thread-safe inventory implementations: lock-based and atomic/CAS |
-| `ratelimiter` | Sliding-window rate limiting with synchronized and lock-based variants |
-| `asyncjobqueue` | Asynchronous job queue with retries and dead-letter queue |
-| `advancedjobqueue` | Priority and scheduled job execution with retries, cancellation, and dead-letter queue |
-| `stampedaccount` | Bank account guarded by `StampedLock` with optimistic reads and consistent snapshots |
-| `webcrawler` | Concurrent crawling of same-host URLs with a thread pool, deduplication, and cycle handling |
+| [`boundedbuffer`](src/main/java/org/example/boundedbuffer/) | Producer-consumer coordination with `ReentrantLock` and `Condition`s |
+| [`simplethreadpool`](src/main/java/org/example/simplethreadpool/) | Fixed-size thread pool with task queue and worker threads |
+| [`forkjoinmergesort`](src/main/java/org/example/forkjoinmergesort/) | Divide-and-conquer sorting with `ForkJoinPool`, recursive tasks, and parallel merges |
+| [`exchangerexample`](src/main/java/org/example/exchangerexample/) | Two-thread rendezvous and value exchange with `Exchanger` |
+| [`taskscheduler`](src/main/java/org/example/taskscheduler/) | Delayed task execution with a priority queue and worker thread |
+| [`simplecyclicbarrier`](src/main/java/org/example/simplecyclicbarrier/) | Reusable barrier that releases threads together by generation |
+| [`phaserexample`](src/main/java/org/example/phaserexample/) | Multi-phase coordination with `Phaser`, including late registration and deregistration |
+| [`simplereadwritelock`](src/main/java/org/example/simplereadwritelock/) | Basic reader-writer lock with writer preference |
+| [`connectionpool`](src/main/java/org/example/connectionpool/) | Connection acquisition and release with timeout, fairness, and wait limits |
+| [`memoizer`](src/main/java/org/example/memoizer/) | Shared computation results via `Future` and `FutureTask` |
+| [`parallelreport`](src/main/java/org/example/parallelreport/) | One-shot report section fan-out/fan-in with `CountDownLatch` and partial-failure collection |
+| [`profileaggregator`](src/main/java/org/example/profileaggregator/) | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
+| [`virtualthreadfetcher`](src/main/java/org/example/virtualthreadfetcher/) | Blocking bulk fetches with one virtual thread per resource and ordered fan-in |
+| [`expiringcache`](src/main/java/org/example/expiringcache/) | TTL cache with background cleanup |
+| [`expiringlrucache`](src/main/java/org/example/expiringlrucache/) | Cache with TTL and least-recently-used eviction |
+| [`simplecountdownlatch`](src/main/java/org/example/simplecountdownlatch/) | One-shot coordination that releases waiters after a fixed number of countdowns |
+| [`fizzbuzz`](src/main/java/org/example/fizzbuzz/) | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
+| [`h2o`](src/main/java/org/example/h2o/) | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
+| [`diningphilosophers`](src/main/java/org/example/diningphilosophers/) | Deadlock-free fork coordination that still allows non-neighboring philosophers to eat concurrently |
+| [`inventory`](src/main/java/org/example/inventory/) | Two thread-safe inventory implementations: lock-based and atomic/CAS |
+| [`ratelimiter`](src/main/java/org/example/ratelimiter/) | Sliding-window rate limiting with synchronized and lock-based variants |
+| [`asyncjobqueue`](src/main/java/org/example/asyncjobqueue/) | Asynchronous job queue with retries and dead-letter queue |
+| [`advancedjobqueue`](src/main/java/org/example/advancedjobqueue/) | Priority and scheduled job execution with retries, cancellation, and dead-letter queue |
+| [`stampedaccount`](src/main/java/org/example/stampedaccount/) | Bank account guarded by `StampedLock` with optimistic reads and consistent snapshots |
+| [`webcrawler`](src/main/java/org/example/webcrawler/) | Concurrent crawling of same-host URLs with a thread pool, deduplication, and cycle handling |
 
 ## Agent Workflow
 
