@@ -85,6 +85,11 @@ mvn test
 ## README Maintenance
 
 - Update `README.md` when adding a new example.
+- Keep the Implemented Examples section as a two-column table: `Example` and `What it demonstrates`.
+- Link each example name to `src/main/java/org/example/<example>/`.
+- In `What it demonstrates`, use one concise sentence that describes the business/use-case situation first, then the main technique with wording like `..., using <technical terms>`.
+- Keep README technique wording short and concrete; prefer names like `Phaser`, `ReentrantLock`, `ConcurrentHashMap`, `Semaphore`, or `ExecutorService` over explanatory phrases.
+- Do not split README entries into separate `Business logic` and `Technique` columns, and do not use `Business logic:` / `Technique:` labels in the README table.
 - Keep the example list and test-count statement in sync with the current repository state.
 
 ## When Adding A New Example
@@ -93,7 +98,7 @@ mvn test
 2. Add tests under `src/test/java/org/example/<example>/`
 3. Add Javadoc to public classes and methods, including the `Business logic:` and `Technique:` class-level pattern for example classes
 4. Add concise Javadoc for each test case
-5. Update `README.md`
+5. Update `README.md` with the linked example name and a one-sentence business/use-case plus technique description
 6. Run `mvn test`
 
 ## Non-Goals

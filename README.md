@@ -21,31 +21,31 @@ mvn test
 
 | Example | What it demonstrates |
 | --- | --- |
-| [`boundedbuffer`](src/main/java/org/example/boundedbuffer/) | Producer-consumer coordination with `ReentrantLock` and `Condition`s |
-| [`simplethreadpool`](src/main/java/org/example/simplethreadpool/) | Fixed-size thread pool with task queue and worker threads |
-| [`forkjoinmergesort`](src/main/java/org/example/forkjoinmergesort/) | Divide-and-conquer sorting with `ForkJoinPool`, recursive tasks, and parallel merges |
-| [`exchangerexample`](src/main/java/org/example/exchangerexample/) | Two-thread rendezvous and value exchange with `Exchanger` |
-| [`taskscheduler`](src/main/java/org/example/taskscheduler/) | Delayed task execution with a priority queue and worker thread |
-| [`simplecyclicbarrier`](src/main/java/org/example/simplecyclicbarrier/) | Reusable barrier that releases threads together by generation |
-| [`phaserexample`](src/main/java/org/example/phaserexample/) | Multi-phase coordination with `Phaser`, including late registration and deregistration |
-| [`simplereadwritelock`](src/main/java/org/example/simplereadwritelock/) | Basic reader-writer lock with writer preference |
-| [`connectionpool`](src/main/java/org/example/connectionpool/) | Connection acquisition and release with timeout, fairness, and wait limits |
-| [`memoizer`](src/main/java/org/example/memoizer/) | Shared computation results via `Future` and `FutureTask` |
-| [`parallelreport`](src/main/java/org/example/parallelreport/) | One-shot report section fan-out/fan-in with `CountDownLatch` and partial-failure collection |
-| [`profileaggregator`](src/main/java/org/example/profileaggregator/) | Parallel profile fan-out/fan-in with `CompletableFuture` and immutable aggregated results |
-| [`virtualthreadfetcher`](src/main/java/org/example/virtualthreadfetcher/) | Blocking bulk fetches with one virtual thread per resource and ordered fan-in |
-| [`expiringcache`](src/main/java/org/example/expiringcache/) | TTL cache with background cleanup |
-| [`expiringlrucache`](src/main/java/org/example/expiringlrucache/) | Cache with TTL and least-recently-used eviction |
-| [`simplecountdownlatch`](src/main/java/org/example/simplecountdownlatch/) | One-shot coordination that releases waiters after a fixed number of countdowns |
-| [`fizzbuzz`](src/main/java/org/example/fizzbuzz/) | Semaphore-based coordination of four threads to produce the FizzBuzz sequence in order |
-| [`h2o`](src/main/java/org/example/h2o/) | Semaphore-based coordination that groups threads into valid water molecules (`HHO`) |
-| [`diningphilosophers`](src/main/java/org/example/diningphilosophers/) | Deadlock-free fork coordination that still allows non-neighboring philosophers to eat concurrently |
-| [`inventory`](src/main/java/org/example/inventory/) | Two thread-safe inventory implementations: lock-based and atomic/CAS |
-| [`ratelimiter`](src/main/java/org/example/ratelimiter/) | Sliding-window rate limiting with synchronized and lock-based variants |
-| [`asyncjobqueue`](src/main/java/org/example/asyncjobqueue/) | Asynchronous job queue with retries and dead-letter queue |
-| [`advancedjobqueue`](src/main/java/org/example/advancedjobqueue/) | Priority and scheduled job execution with retries, cancellation, and dead-letter queue |
-| [`stampedaccount`](src/main/java/org/example/stampedaccount/) | Bank account guarded by `StampedLock` with optimistic reads and consistent snapshots |
-| [`webcrawler`](src/main/java/org/example/webcrawler/) | Concurrent crawling of same-host URLs with a thread pool, deduplication, and cycle handling |
+| [`boundedbuffer`](src/main/java/org/example/boundedbuffer/) | Handing off work between producers and consumers without exceeding capacity, using `ReentrantLock` and `Condition`. |
+| [`simplethreadpool`](src/main/java/org/example/simplethreadpool/) | Running submitted tasks on a reusable fixed worker set, using `ReentrantLock` and `Condition`. |
+| [`forkjoinmergesort`](src/main/java/org/example/forkjoinmergesort/) | Sorting large arrays without mutating caller input, using `ForkJoinPool` and `RecursiveAction`. |
+| [`exchangerexample`](src/main/java/org/example/exchangerexample/) | Letting two parties rendezvous and swap payloads, using `Exchanger`. |
+| [`taskscheduler`](src/main/java/org/example/taskscheduler/) | Running tasks after their scheduled delay, using `PriorityQueue`, `ReentrantLock`, and `Condition`. |
+| [`simplecyclicbarrier`](src/main/java/org/example/simplecyclicbarrier/) | Holding a fixed group at a reusable checkpoint, using `ReentrantLock` and `Condition`. |
+| [`phaserexample`](src/main/java/org/example/phaserexample/) | Coordinating multi-phase work where participants can join or leave, using `Phaser`. |
+| [`simplereadwritelock`](src/main/java/org/example/simplereadwritelock/) | Protecting shared data with concurrent reads and exclusive writes, using `ReentrantLock` and `Condition`. |
+| [`connectionpool`](src/main/java/org/example/connectionpool/) | Sharing a limited pool of reusable connections with timeouts, using fair `ReentrantLock` and `Condition`. |
+| [`memoizer`](src/main/java/org/example/memoizer/) | Sharing expensive computed values across callers by key, using `FutureTask` and `ReentrantLock`. |
+| [`parallelreport`](src/main/java/org/example/parallelreport/) | Building a report from independent sections, using `ExecutorService`, `CountDownLatch`, and `ConcurrentHashMap`. |
+| [`profileaggregator`](src/main/java/org/example/profileaggregator/) | Assembling a user profile from independent services, using `CompletableFuture`. |
+| [`virtualthreadfetcher`](src/main/java/org/example/virtualthreadfetcher/) | Fetching many blocking resources while preserving request order, using virtual threads and `Future`. |
+| [`expiringcache`](src/main/java/org/example/expiringcache/) | Serving cached values only while they are fresh, using `ReentrantLock` and `ScheduledExecutorService`. |
+| [`expiringlrucache`](src/main/java/org/example/expiringlrucache/) | Keeping a bounded cache fresh and recently used, using `HashMap`, linked list, and `ReentrantLock`. |
+| [`simplecountdownlatch`](src/main/java/org/example/simplecountdownlatch/) | Releasing waiters after enough completions are reported, using `ReentrantLock` and `Condition`. |
+| [`fizzbuzz`](src/main/java/org/example/fizzbuzz/) | Emitting the FizzBuzz sequence from four cooperating workers, using `Semaphore`. |
+| [`h2o`](src/main/java/org/example/h2o/) | Grouping hydrogen and oxygen workers into valid water molecules, using `Semaphore`. |
+| [`diningphilosophers`](src/main/java/org/example/diningphilosophers/) | Sharing forks without deadlock while preserving non-neighbor concurrency, using `Semaphore` and `ReentrantLock`. |
+| [`inventory`](src/main/java/org/example/inventory/) | Keeping stock counts correct when many buyers purchase limited inventory, using `ConcurrentHashMap`, `ReentrantLock`, and `AtomicInteger`. |
+| [`ratelimiter`](src/main/java/org/example/ratelimiter/) | Admitting or rejecting per-user requests based on recent traffic, using `ConcurrentHashMap`, `ConcurrentLinkedQueue`, and `ReentrantLock`. |
+| [`asyncjobqueue`](src/main/java/org/example/asyncjobqueue/) | Processing background jobs with retries and dead-letter capture, using `ExecutorService`, `ReentrantLock`, and `Condition`. |
+| [`advancedjobqueue`](src/main/java/org/example/advancedjobqueue/) | Running scheduled, prioritized, cancellable jobs with retries, using `DelayQueue`. |
+| [`stampedaccount`](src/main/java/org/example/stampedaccount/) | Keeping account balances and snapshots consistent under concurrent access, using `StampedLock`. |
+| [`webcrawler`](src/main/java/org/example/webcrawler/) | Crawling each reachable same-host URL once, using `ExecutorService`, `BlockingQueue`, `ConcurrentHashMap`, and `AtomicInteger`. |
 
 ## Agent Workflow
 
