@@ -7,17 +7,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Coordinates two threads that rendezvous and swap one value each.
+ * Business logic: lets two cooperating parties meet at a rendezvous point and
+ * swap one payload, such as paired request/response handoff data.
  *
- * <p>The exchanger blocks each caller until its counterpart arrives. Once both
- * parties reach the rendezvous point, each thread receives the other thread's
- * value. The same exchanger can be reused across multiple exchange rounds.
+ * <p>Technique: delegates to {@link Exchanger} because the problem is a
+ * two-party rendezvous with simultaneous value transfer. It removes manual
+ * pairing logic, blocks until both parties arrive, and supports timed waits to
+ * avoid hanging forever.
  *
  * @param <T> the exchanged value type
  */
 public class MessageExchanger<T> {
 
     private final Exchanger<T> exchanger = new Exchanger<>();
+
+    /**
+     * Creates a reusable two-party exchanger.
+     */
+    public MessageExchanger() {
+    }
 
     /**
      * Exchanges a value with another thread, blocking until the counterpart arrives.

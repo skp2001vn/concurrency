@@ -4,12 +4,14 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Coordinates five philosophers that share five forks arranged in a circle.
+ * Business logic: coordinates five philosophers sharing five forks in a circle
+ * so neighbors do not eat with the same fork and non-neighbors can still eat
+ * concurrently.
  *
- * <p>Each fork is protected by its own {@link ReentrantLock}. Deadlock is
- * prevented by allowing at most four philosophers to compete for forks at the
- * same time, which breaks the circular wait condition while still allowing
- * non-neighboring philosophers to eat concurrently.
+ * <p>Technique: protects each fork with a fair {@link ReentrantLock} because
+ * each fork is an exclusive resource. A fair {@link Semaphore} allows at most
+ * four philosophers to compete, which breaks circular wait, prevents deadlock,
+ * and still permits non-neighboring philosophers to eat concurrently.
  */
 public class DiningPhilosophers {
 

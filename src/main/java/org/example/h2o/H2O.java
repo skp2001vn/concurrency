@@ -3,11 +3,12 @@ package org.example.h2o;
 import java.util.concurrent.Semaphore;
 
 /**
- * Coordinates hydrogen and oxygen threads so they can form water molecules in groups of two
- * hydrogens and one oxygen.
+ * Business logic: groups hydrogen and oxygen workers into valid water molecules
+ * with exactly two hydrogen callbacks and one oxygen callback per group.
  *
- * <p>The implementation uses semaphores to allow up to two hydrogen threads to proceed before one
- * oxygen thread is released. After oxygen runs, permits are restored for the next molecule.
+ * <p>Technique: uses semaphores because the molecule ratio is naturally modeled
+ * as permits. Two hydrogen releases enable one oxygen release, and oxygen
+ * restores permits for the next molecule without needing a global lock.
  */
 public class H2O {
     private final Semaphore hydrogen = new Semaphore(2);

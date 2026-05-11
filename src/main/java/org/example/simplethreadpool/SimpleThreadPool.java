@@ -5,10 +5,14 @@ import java.util.concurrent.locks.*;
 
 
 /**
- * A simple fixed-size thread pool that queues submitted tasks and has worker
- * threads wait for and execute them using an explicit lock and condition.
+ * Business logic: accepts independent tasks and executes them asynchronously on
+ * a fixed set of reusable worker threads.
+ *
+ * <p>Technique: stores tasks in a guarded queue and wakes workers with a
+ * {@link Condition} because workers should sleep when there is no work. A fixed
+ * worker set avoids creating a new thread per task, while a volatile shutdown
+ * flag gives a simple cross-thread stop signal.
  */
-
 public class SimpleThreadPool {
 
     private final Queue<Runnable> taskQueue = new LinkedList<>();

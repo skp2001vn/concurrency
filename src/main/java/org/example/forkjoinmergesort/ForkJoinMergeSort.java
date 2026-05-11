@@ -6,12 +6,13 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
 /**
- * Sorts integer arrays with a fork/join merge sort.
+ * Business logic: sorts an integer array for callers that need an immutable
+ * input contract and receive a sorted copy.
  *
- * <p>The sorter recursively splits the array into disjoint ranges, sorts smaller
- * ranges in parallel via a {@link ForkJoinPool}, and merges the results after
- * child tasks complete. The input array is never mutated; callers receive a
- * sorted copy instead.
+ * <p>Technique: recursively splits disjoint ranges into {@link RecursiveAction}
+ * tasks executed by a {@link ForkJoinPool} because divide-and-conquer work can
+ * be stolen across worker threads. A sequential threshold avoids parallel
+ * overhead for tiny ranges, while merging after joins preserves correctness.
  */
 public class ForkJoinMergeSort {
 

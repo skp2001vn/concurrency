@@ -5,9 +5,13 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe memoization cache that stores in-progress and completed
- * computations as futures so concurrent requests for the same key share a
- * single expensive computation.
+ * Business logic: caches expensive values by key so repeated callers can reuse
+ * completed work instead of recomputing it.
+ *
+ * <p>Technique: stores in-progress and completed computations as {@link Future}
+ * instances because callers may arrive while a value is still being computed.
+ * Guarding insertion with a {@link ReentrantLock} ensures only one
+ * {@link FutureTask} is created per key, preventing duplicate expensive work.
  *
  * @param <K> the key type
  * @param <V> the computed value type
@@ -16,6 +20,12 @@ public class Memoizer<K, V> {
 
     private final Map<K, Future<V>> cache = new HashMap<>();
     private final ReentrantLock lock = new ReentrantLock();
+
+    /**
+     * Creates an empty memoization cache.
+     */
+    public Memoizer() {
+    }
 
     /**
      * Computes or returns the cached value for a key, ensuring concurrent callers share the same

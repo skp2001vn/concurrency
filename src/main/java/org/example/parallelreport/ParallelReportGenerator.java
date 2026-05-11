@@ -10,13 +10,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Generates a report by fetching independent sections in parallel and waiting for all section
- * tasks to finish with a real {@link CountDownLatch}.
+ * Business logic: generates a report by fetching independent sales, inventory,
+ * and billing sections and returning both successful content and section-level
+ * failures.
  *
- * <p>The generator uses a worker pool for section fetch tasks, while the latch provides the
- * one-shot coordination point that releases the caller only after every section has either
- * succeeded or failed. Successful and failed sections are collected separately to make the
- * coordination role of the latch explicit.
+ * <p>Technique: fans out section fetches to an {@link ExecutorService} because
+ * the sections are independent and can be fetched concurrently. A
+ * {@link CountDownLatch} gives a simple one-shot join point, while
+ * {@link ConcurrentHashMap}s let worker threads record successes and failures
+ * safely.
  */
 public class ParallelReportGenerator {
 
@@ -193,8 +195,19 @@ public class ParallelReportGenerator {
      * The fixed set of report sections produced by the generator.
      */
     public enum ReportSectionType {
+        /**
+         * Sales performance section.
+         */
         SALES,
+
+        /**
+         * Inventory availability section.
+         */
         INVENTORY,
+
+        /**
+         * Billing status section.
+         */
         BILLING
     }
 
@@ -206,6 +219,12 @@ public class ParallelReportGenerator {
      */
     public record ReportSection(ReportSectionType type, String content) {
 
+        /**
+         * Creates a successful section result.
+         *
+         * @param type the section kind
+         * @param content the rendered section content
+         */
         public ReportSection {
             type = Objects.requireNonNull(type, "type");
             content = Objects.requireNonNull(content, "content");
@@ -224,6 +243,13 @@ public class ParallelReportGenerator {
             String errorType,
             String errorMessage) {
 
+        /**
+         * Creates a failed section result.
+         *
+         * @param type the section kind that failed
+         * @param errorType simple exception type name
+         * @param errorMessage exception message captured from the failed task
+         */
         public FailedSection {
             type = Objects.requireNonNull(type, "type");
             errorType = Objects.requireNonNull(errorType, "errorType");
@@ -243,6 +269,13 @@ public class ParallelReportGenerator {
             List<ReportSection> sections,
             List<FailedSection> failures) {
 
+        /**
+         * Creates an immutable report result.
+         *
+         * @param reportId identifier for the generated report
+         * @param sections successfully generated sections in defined report order
+         * @param failures failed sections in defined report order
+         */
         public ReportResult {
             reportId = Objects.requireNonNull(reportId, "reportId");
             sections = List.copyOf(Objects.requireNonNull(sections, "sections"));

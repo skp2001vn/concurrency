@@ -1,5 +1,14 @@
 package org.example.inventory;
 
+/**
+ * Business logic: defines stock operations for product inventory examples where
+ * concurrent customers may add stock or purchase one unit.
+ *
+ * <p>Technique: implementations demonstrate per-product locking and atomic
+ * compare-and-set counters because stock updates are compound operations. These
+ * strategies prevent overselling while showing the tradeoff between explicit
+ * locks and lock-free retry loops.
+ */
 public interface InventoryService {
 
     /**

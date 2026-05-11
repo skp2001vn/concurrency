@@ -9,12 +9,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Fetches many blocking resources concurrently by representing each fetch task as its own virtual
- * thread.
+ * Business logic: fetches many blocking resources, such as URLs or remote
+ * records, while preserving the caller's requested result order.
  *
- * <p>The fetcher uses {@link Executors#newVirtualThreadPerTaskExecutor()} so callers can keep a
- * straightforward synchronous, blocking fetch API while still scaling to large numbers of
- * concurrent I/O-bound tasks. Results are collected in the same order as the requested resources.
+ * <p>Technique: uses {@link Executors#newVirtualThreadPerTaskExecutor()} because
+ * blocking I/O-style work benefits from many cheap waiting threads. Joining the
+ * submitted {@link Future}s in input order keeps the caller-facing result
+ * deterministic without manually coordinating worker threads.
  */
 public class VirtualThreadFetcher {
 
@@ -81,6 +82,12 @@ public class VirtualThreadFetcher {
      */
     public record FetchResult(String resourceId, String content) {
 
+        /**
+         * Creates a fetched resource result.
+         *
+         * @param resourceId identifier or URL that was fetched
+         * @param content fetched content for the resource
+         */
         public FetchResult {
             resourceId = Objects.requireNonNull(resourceId, "resourceId");
             content = Objects.requireNonNull(content, "content");

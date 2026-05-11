@@ -1,5 +1,14 @@
 package org.example.ratelimiter;
 
+/**
+ * Business logic: decides whether a user's request should be admitted under a
+ * configured request quota.
+ *
+ * <p>Technique: implementations maintain per-user sliding windows because recent
+ * timestamps are enough to decide admission. Coordinating updates with
+ * synchronized queues or explicit locks keeps each user's decision atomic while
+ * allowing different users to be checked independently.
+ */
 public interface RateLimiter {
 
     /**

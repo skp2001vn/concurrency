@@ -3,11 +3,13 @@ package org.example.stampedaccount;
 import java.util.concurrent.locks.StampedLock;
 
 /**
- * A thread-safe bank account that uses {@link StampedLock}.
+ * Business logic: models a bank account that supports deposits, withdrawals,
+ * balance reads, and consistent balance/version snapshots.
  *
- * <p>Deposits and withdrawals use the exclusive write lock. Balance reads and
- * snapshots first try an optimistic read and fall back to a regular read lock
- * if a concurrent write invalidates the optimistic snapshot.</p>
+ * <p>Technique: uses {@link StampedLock} write locks because deposits and
+ * withdrawals must be exclusive. Optimistic reads make uncontended balance reads
+ * cheap, and validation with read-lock fallback preserves consistency when a
+ * concurrent write occurs.
  */
 public class StampedAccount {
 

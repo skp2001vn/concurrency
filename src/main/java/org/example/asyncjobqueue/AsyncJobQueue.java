@@ -5,9 +5,13 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 /**
- * A concurrent job queue that processes tasks asynchronously with a fixed
- * worker pool, retries failed jobs up to a limit, and stores exhausted jobs
- * in a dead-letter queue using explicit lock-based coordination.
+ * Business logic: processes background jobs asynchronously, retries failed jobs,
+ * and preserves exhausted jobs in a dead-letter queue for inspection.
+ *
+ * <p>Technique: runs a fixed worker pool over a guarded FIFO queue because jobs
+ * should be processed asynchronously without creating unbounded threads. A
+ * {@link Condition} lets idle workers sleep, and a {@link ReentrantLock} keeps
+ * queue, retry, and dead-letter transitions consistent.
  */
 public class AsyncJobQueue {
 

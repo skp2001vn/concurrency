@@ -4,14 +4,24 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe inventory service that uses a separate lock per product to
- * synchronize purchases while allowing unrelated products to be updated in
- * parallel.
+ * Business logic: tracks product stock and lets concurrent customers purchase
+ * one unit without overselling.
+ *
+ * <p>Technique: stores quantities in a {@link ConcurrentHashMap} and uses a
+ * dedicated {@link ReentrantLock} per product because each purchase must check
+ * and decrement stock atomically. Per-product locking keeps unrelated product
+ * purchases from blocking each other.
  */
 public class LockBasedInventoryService implements InventoryService {
 
     private final ConcurrentHashMap<String, Integer> inventory = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, ReentrantLock> locks = new ConcurrentHashMap<>();
+
+    /**
+     * Creates an empty lock-based inventory service.
+     */
+    public LockBasedInventoryService() {
+    }
 
     /**
      * {@inheritDoc}

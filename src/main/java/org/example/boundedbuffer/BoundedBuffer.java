@@ -6,9 +6,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe bounded buffer for producer-consumer coordination where
- * producers block when the buffer is full and consumers block when it is
- * empty, using an explicit lock and condition variables.
+ * Business logic: models a bounded handoff queue where producer threads add
+ * work items and consumer threads remove them without exceeding fixed capacity.
+ *
+ * <p>Technique: protects the queue with a {@link ReentrantLock} and uses
+ * separate {@link Condition}s because producers and consumers wait for different
+ * state changes. This avoids busy-waiting and wakes only the side that can make
+ * progress.
  *
  * @param <T> the type of items stored in the buffer
  */

@@ -12,15 +12,22 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Crawls pages concurrently starting from a seed URL and returns all reachable URLs that share the
- * same hostname.
+ * Business logic: crawls every reachable URL on the same host as a starting URL
+ * while ignoring off-host links and duplicate pages.
  *
- * <p>The crawler uses a fixed-size worker pool and a shared blocking queue of discovered URLs.
- * URLs are deduplicated with a concurrent visited set, and an in-flight task counter prevents
- * workers from exiting early while other threads are still discovering more pages.
+ * <p>Technique: runs a fixed worker pool over a shared {@link BlockingQueue}
+ * because crawling is naturally many independent fetch/parse tasks. A concurrent
+ * visited set prevents duplicate work, and an {@link AtomicInteger} in-flight
+ * counter lets workers terminate only after all discovered work is finished.
  */
 public class WebCrawler {
     private static final int WORKER_COUNT = 8;
+
+    /**
+     * Creates a crawler with the default worker count.
+     */
+    public WebCrawler() {
+    }
 
     /**
      * Crawls the connected same-host subgraph reachable from the starting URL.

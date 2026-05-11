@@ -3,9 +3,15 @@ package org.example.advancedjobqueue;
 import java.util.concurrent.*;
 
 /**
- * A concurrent job queue that executes tasks by scheduled time and priority,
- * supports cancellation, retries failed jobs with exponential backoff, and
- * moves jobs that exceed the retry limit to a dead-letter queue.
+ * Business logic: executes scheduled jobs by due time and priority, supports
+ * cancellation before execution, retries failures, and dead-letters exhausted
+ * jobs.
+ *
+ * <p>Technique: uses a {@link DelayQueue} of {@link Job}s because scheduled
+ * jobs should become available only when due. A fixed worker pool bounds
+ * execution resources, a concurrent registry makes cancellation lookup safe,
+ * exponential backoff avoids immediate retry loops, and a
+ * {@link LinkedBlockingQueue} preserves failed jobs for inspection.
  */
 public class AdvancedJobQueue {
 
@@ -27,6 +33,13 @@ public class AdvancedJobQueue {
         this(workerCount, maxRetries, 1000);
     }
 
+    /**
+     * Creates a queue with an explicit retry base delay for deterministic tests.
+     *
+     * @param workerCount the number of worker threads
+     * @param maxRetries the maximum number of retry attempts before dead-lettering a job
+     * @param retryBaseDelayMillis the base delay used to calculate exponential retry backoff
+     */
     AdvancedJobQueue(int workerCount, int maxRetries, long retryBaseDelayMillis) {
         this.maxRetries = maxRetries;
         this.retryBaseDelayMillis = retryBaseDelayMillis;
@@ -95,6 +108,11 @@ public class AdvancedJobQueue {
         }
     }
 
+    /**
+     * Returns the dead-letter queue containing jobs that exhausted retries.
+     *
+     * @return the queue of failed jobs
+     */
     public BlockingQueue<Job> getDeadLetterQueue() {
         return deadLetterQueue;
     }

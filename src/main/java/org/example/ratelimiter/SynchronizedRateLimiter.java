@@ -4,9 +4,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * A sliding-window rate limiter that uses per-user synchronized queues to
- * serialize request tracking and enforce a maximum number of requests within
- * a fixed time window.
+ * Business logic: enforces a per-user request limit within a rolling time
+ * window, as an API gateway or service endpoint might do.
+ *
+ * <p>Technique: stores timestamp queues in a {@link ConcurrentHashMap} because
+ * each user has independent request history. Synchronizing on the user's queue
+ * keeps trimming and admission atomic with minimal machinery, while different
+ * users can still proceed concurrently.
  */
 public class SynchronizedRateLimiter implements RateLimiter {
 
@@ -14,6 +18,12 @@ public class SynchronizedRateLimiter implements RateLimiter {
     private final long windowSizeInMillis;
     private final ConcurrentHashMap<String, ConcurrentLinkedQueue<Long>> requestLog;
 
+    /**
+     * Creates a sliding-window limiter.
+     *
+     * @param limit the maximum number of requests allowed per user in the window
+     * @param windowSizeInMillis the window size in milliseconds
+     */
     public SynchronizedRateLimiter(int limit, long windowSizeInMillis) {
         this.limit = limit;
         this.windowSizeInMillis = windowSizeInMillis;

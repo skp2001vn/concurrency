@@ -5,9 +5,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.*;
 
 /**
- * A thread-safe connection pool that lets threads acquire and release reusable
- * connections with timeout support, fair lock ordering, and a limit on how
- * many threads may wait for a connection.
+ * Business logic: shares a finite set of reusable connections among callers
+ * while bounding how long and how many callers may wait.
+ *
+ * <p>Technique: uses a fair {@link ReentrantLock} because acquisition order
+ * matters when many callers compete for scarce connections. A {@link Condition}
+ * enables timed waiting without polling, and the waiter limit prevents unbounded
+ * contention under load.
  */
 public class ConnectionPool {
 

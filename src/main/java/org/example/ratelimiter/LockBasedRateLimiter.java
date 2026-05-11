@@ -5,9 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A sliding-window rate limiter that uses a dedicated reentrant lock per user
- * to coordinate request tracking and enforce request limits within a fixed
- * time window.
+ * Business logic: enforces a per-user request limit within a rolling time
+ * window, as an API gateway or service endpoint might do.
+ *
+ * <p>Technique: keeps a per-user timestamp deque and {@link ReentrantLock} in a
+ * {@link ConcurrentHashMap} because each user's sliding window is independent.
+ * The explicit lock makes the compound trim/check/add operation atomic and
+ * leaves room for lock-specific behavior such as try-locking or fairness.
  */
 public class LockBasedRateLimiter implements RateLimiter {
 
@@ -21,6 +25,12 @@ public class LockBasedRateLimiter implements RateLimiter {
 
     private final ConcurrentHashMap<String, RateLimitState> requestLog = new ConcurrentHashMap<>();
 
+    /**
+     * Creates a sliding-window limiter.
+     *
+     * @param limit the maximum number of requests allowed per user in the window
+     * @param windowSizeInMillis the window size in milliseconds
+     */
     public LockBasedRateLimiter(int limit, long windowSizeInMillis) {
         this.limit = limit;
         this.windowSizeInMillis = windowSizeInMillis;

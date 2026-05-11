@@ -5,9 +5,16 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe cache that stores entries with per-item expiration times,
- * removes expired values on access, and periodically cleans them up in the
- * background with a scheduled task.
+ * Business logic: stores cached values with a time-to-live so callers never
+ * receive expired data.
+ *
+ * <p>Technique: guards a hash map with a {@link ReentrantLock} because entry
+ * reads, writes, and removals must observe consistent expiration state. Removing
+ * expired entries on read keeps responses correct, while a
+ * {@link ScheduledExecutorService} reduces stale memory in the background.
+ *
+ * @param <K> the key type
+ * @param <V> the value type
  */
 public class ExpiringCache<K, V> {
 

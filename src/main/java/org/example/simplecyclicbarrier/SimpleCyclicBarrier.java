@@ -4,9 +4,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A reusable synchronization barrier that blocks threads until a fixed number
- * of parties have called {@code await()}, then releases them together and
- * resets for the next generation.
+ * Business logic: represents a reusable checkpoint where a fixed group of
+ * workers must all arrive before any worker continues to the next step.
+ *
+ * <p>Technique: uses a generation counter guarded by {@link ReentrantLock} and
+ * a {@link Condition} because the barrier must be reusable across rounds. The
+ * generation separates old waiters from the next cycle, and the last arriving
+ * party releases everyone together.
  */
 public class SimpleCyclicBarrier {
 

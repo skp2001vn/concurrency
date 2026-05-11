@@ -49,9 +49,10 @@ Each example should remain:
 - Add class-level Javadoc for each example class.
 - Add method-level Javadoc for public methods.
 - Add concise Javadoc for each `@Test` method so future readers can quickly see the behavior or guarantee being verified.
-- Javadoc should explain:
-  - the concurrency problem being solved
-  - the coordination strategy used
+- Class-level Javadoc for example classes should follow the current repository pattern:
+  - start with `Business logic:` and describe the real-world/use-case behavior the example models
+  - follow with `Technique:` and describe the concurrency primitive, pattern, or coordination strategy used, why it fits the problem, and the benefit it provides
+- Javadoc should also explain:
   - important behavioral guarantees or constraints
 - Keep Javadoc concise and practical. Avoid repeating obvious implementation details line by line.
 - When Lombok generates simple constructors or getters, document the class and any non-generated public methods instead of recreating boilerplate manually.
@@ -90,9 +91,10 @@ mvn test
 
 1. Add production code under `src/main/java/org/example/<example>/`
 2. Add tests under `src/test/java/org/example/<example>/`
-3. Add Javadoc to public classes and methods, plus concise Javadoc for each test case
-4. Update `README.md`
-5. Run `mvn test`
+3. Add Javadoc to public classes and methods, including the `Business logic:` and `Technique:` class-level pattern for example classes
+4. Add concise Javadoc for each test case
+5. Update `README.md`
+6. Run `mvn test`
 
 ## Non-Goals
 

@@ -3,14 +3,13 @@ package org.example.phaserexample;
 import java.util.concurrent.Phaser;
 
 /**
- * Coordinates work that proceeds through a fixed number of phases while allowing
- * parties to register late and deregister when they are done.
+ * Business logic: coordinates multi-step work where participants may join after
+ * the coordinator starts and leave once their portion is complete.
  *
- * <p>The coordinator wraps a {@link Phaser}. Registered participants call
- * {@code arriveAndAwaitAdvance()} to wait for the rest of the current phase and
- * {@code arriveAndDeregister()} when they no longer need to participate. The
- * phaser terminates automatically after the configured number of phases or when
- * no parties remain.
+ * <p>Technique: wraps a {@link Phaser} because it supports dynamic registration
+ * and deregistration across repeated phases. This fits phased workflows better
+ * than a fixed barrier and lets the coordinator terminate when the phase limit
+ * is reached or no parties remain.
  */
 public class PhasedTaskCoordinator {
 
@@ -99,6 +98,9 @@ public class PhasedTaskCoordinator {
      */
     public final class Participant {
         private boolean active = true;
+
+        private Participant() {
+        }
 
         /**
          * Signals arrival for the current phase and waits until the phase advances.

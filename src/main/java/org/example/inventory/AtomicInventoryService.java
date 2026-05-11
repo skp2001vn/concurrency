@@ -4,12 +4,23 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A thread-safe inventory service that uses atomic counters and compare-and-set
- * operations to handle purchases without explicit locks.
+ * Business logic: tracks product stock and lets concurrent customers purchase
+ * one unit without allowing the quantity to drop below zero.
+ *
+ * <p>Technique: stores per-product {@link AtomicInteger} counters in a
+ * {@link ConcurrentHashMap} because each product's quantity can be updated
+ * independently. A compare-and-set retry loop prevents overselling without
+ * explicit locks and keeps successful purchases lightweight.
  */
 public class AtomicInventoryService implements InventoryService {
 
     private final ConcurrentHashMap<String, AtomicInteger> inventory = new ConcurrentHashMap<>();
+
+    /**
+     * Creates an empty atomic inventory service.
+     */
+    public AtomicInventoryService() {
+    }
 
     /**
      * {@inheritDoc}

@@ -4,11 +4,13 @@ import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;
 
 /**
- * Coordinates four threads to print the classic FizzBuzz sequence from {@code 1} to {@code n}.
+ * Business logic: coordinates four worker roles to emit the classic FizzBuzz
+ * sequence from {@code 1} to {@code n} in strict order.
  *
- * <p>One thread prints numbers, and three specialized threads print {@code fizz}, {@code buzz},
- * and {@code fizzbuzz}. Semaphores ensure that exactly one output is produced for each number and
- * that outputs appear in ascending order.
+ * <p>Technique: uses semaphores as handoff permits because only one worker
+ * should emit output for each number. The number worker routes divisible values
+ * to specialized workers, and the permit handoff serializes output without a
+ * shared busy loop.
  */
 public class FizzBuzz {
 

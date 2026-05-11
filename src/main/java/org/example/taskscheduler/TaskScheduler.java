@@ -6,9 +6,13 @@ import java.util.concurrent.locks.ReentrantLock;
 import lombok.AllArgsConstructor;
 
 /**
- * A single-worker task scheduler that runs submitted tasks after a delay,
- * ordering them by execution time with a priority queue and coordinating
- * waiting and wakeups with an explicit lock and condition.
+ * Business logic: runs submitted tasks after their requested delay, similar to
+ * a small single-threaded reminder or deferred-job scheduler.
+ *
+ * <p>Technique: orders tasks by execution time in a priority queue because the
+ * earliest due task must run first. A {@link ReentrantLock} and
+ * {@link Condition} let the worker sleep until either a new earlier task arrives
+ * or the current head task becomes due.
  */
 public class TaskScheduler {
 

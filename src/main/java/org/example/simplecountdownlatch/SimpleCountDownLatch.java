@@ -4,12 +4,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A one-shot synchronization latch that blocks waiting threads until a fixed
- * number of {@code countDown()} calls have been made.
+ * Business logic: represents a one-shot gate where callers wait until a fixed
+ * number of independent completions have been reported.
  *
- * <p>The latch uses a {@link ReentrantLock} and a single {@link Condition} to
- * coordinate waiters. Once the count reaches zero, all current and future
- * callers to {@code await()} proceed immediately.
+ * <p>Technique: guards the remaining count with a {@link ReentrantLock} because
+ * decrement and wait decisions must be atomic. A single {@link Condition}
+ * releases all waiters when the count reaches zero and avoids polling while
+ * work is still outstanding.
  */
 public class SimpleCountDownLatch {
 

@@ -5,9 +5,13 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A thread-safe cache that stores entries with per-item expiration times and
- * evicts the least recently used entry when capacity is exceeded, using a hash
- * map and doubly linked list to maintain access order under a single lock.
+ * Business logic: provides a capacity-limited cache where entries expire by TTL
+ * and the least recently used live entry is evicted when capacity is exceeded.
+ *
+ * <p>Technique: combines a hash map for O(1)-style lookup with a doubly linked
+ * list for recency tracking because eviction needs both fast access and ordered
+ * removal. A single {@link ReentrantLock} keeps the map and list consistent
+ * during compound updates.
  *
  * @param <K> the key type
  * @param <V> the value type

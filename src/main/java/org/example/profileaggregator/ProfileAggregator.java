@@ -6,12 +6,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * Aggregates a user-facing profile view by fetching independent data sources in parallel with
- * {@link CompletableFuture} and combining them into one immutable snapshot.
+ * Business logic: assembles a user-facing profile snapshot from independent
+ * profile, recent-order, and recommendation services.
  *
- * <p>The aggregator fans out blocking service calls with {@code supplyAsync} on a shared executor
- * and fans them back in with {@code allOf}. The returned future completes when all lookups finish
- * or exceptionally if any lookup fails.
+ * <p>Technique: fans out blocking service calls with
+ * {@link CompletableFuture#supplyAsync(java.util.function.Supplier, Executor)}
+ * because the lookups are independent but their results must be combined.
+ * {@link CompletableFuture#allOf} provides a readable fan-in point and keeps the
+ * API asynchronous for callers.
  */
 public class ProfileAggregator {
 
@@ -123,6 +125,13 @@ public class ProfileAggregator {
             List<Order> recentOrders,
             List<Recommendation> recommendations) {
 
+        /**
+         * Creates an immutable profile snapshot.
+         *
+         * @param user the base user profile
+         * @param recentOrders recent orders for the user
+         * @param recommendations recommended items for the user
+         */
         public ProfileSnapshot {
             user = Objects.requireNonNull(user, "user");
             recentOrders = List.copyOf(Objects.requireNonNull(recentOrders, "recentOrders"));
@@ -140,6 +149,13 @@ public class ProfileAggregator {
      */
     public record UserProfile(String userId, String displayName, String email) {
 
+        /**
+         * Creates basic user profile data.
+         *
+         * @param userId the user identifier
+         * @param displayName the user-facing name
+         * @param email the primary contact email
+         */
         public UserProfile {
             userId = Objects.requireNonNull(userId, "userId");
             displayName = Objects.requireNonNull(displayName, "displayName");
@@ -155,6 +171,12 @@ public class ProfileAggregator {
      */
     public record Order(String orderId, String description) {
 
+        /**
+         * Creates an order summary.
+         *
+         * @param orderId the order identifier
+         * @param description a short order summary
+         */
         public Order {
             orderId = Objects.requireNonNull(orderId, "orderId");
             description = Objects.requireNonNull(description, "description");
@@ -169,6 +191,12 @@ public class ProfileAggregator {
      */
     public record Recommendation(String itemId, String reason) {
 
+        /**
+         * Creates a recommendation entry.
+         *
+         * @param itemId the recommended item identifier
+         * @param reason a short explanation for the recommendation
+         */
         public Recommendation {
             itemId = Objects.requireNonNull(itemId, "itemId");
             reason = Objects.requireNonNull(reason, "reason");

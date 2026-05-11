@@ -4,9 +4,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * A basic read-write lock that allows multiple concurrent readers or one
- * exclusive writer, giving waiting writers priority over new readers to
- * reduce writer starvation.
+ * Business logic: protects shared state whose reads can safely run together but
+ * whose writes must run exclusively.
+ *
+ * <p>Technique: tracks active readers, active writers, and waiting writers under
+ * a {@link ReentrantLock} because read and write admission depend on shared
+ * counters. Separate {@link Condition}s allow targeted wakeups, and writer
+ * preference reduces starvation when writes are waiting.
  */
 public class SimpleReadWriteLock {
 
@@ -17,6 +21,12 @@ public class SimpleReadWriteLock {
     private int activeReaders = 0;
     private int activeWriters = 0;
     private int waitingWriters = 0;
+
+    /**
+     * Creates an unlocked reader-writer lock.
+     */
+    public SimpleReadWriteLock() {
+    }
 
     /**
      * Acquires the read lock, waiting while a writer is active or queued.
