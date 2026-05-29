@@ -6,7 +6,7 @@ The codebase is organized as small, focused introductory examples such as thread
 
 The repository also includes an [AGENTS.md](AGENTS.md) guide to keep AI-assisted and human contributions consistent across examples, tests, and documentation.
 
-For similar concurrency examples in Go, see [skp2001vn/go-concurrency-examples](https://github.com/skp2001vn/go-concurrency-examples).
+For similar concurrency examples in Python, check out [skp2001vn/python-concurrency-examples](https://github.com/skp2001vn/python-concurrency-examples), and for Go, see [skp2001vn/go-concurrency-examples](https://github.com/skp2001vn/go-concurrency-examples).
 
 ## Requirements
 
