@@ -10,17 +10,19 @@ import java.util.concurrent.locks.*;
  *
  * <p>Technique: stores tasks in a guarded queue and wakes workers with a
  * {@link Condition} because workers should sleep when there is no work. A fixed
- * worker set avoids creating a new thread per task, while a volatile shutdown
- * flag gives a simple cross-thread stop signal.
+ * worker set avoids creating a new thread per task. The same lock guards task
+ * admission and shutdown so accepted tasks finish before workers exit.
+ *
+ * <p>This is a learning example; application code should normally use Java's
+ * {@link java.util.concurrent.ExecutorService} implementations.
  */
 public class SimpleThreadPool {
 
     private final Queue<Runnable> taskQueue = new LinkedList<>();
-    private final List<Worker> workers = new ArrayList<>();
 
     private final ReentrantLock lock = new ReentrantLock();
     private final Condition notEmpty = lock.newCondition();
-    private volatile boolean running = true;
+    private boolean running = true;
 
     /**
      * Creates a fixed-size thread pool with the given number of worker threads.
@@ -30,7 +32,6 @@ public class SimpleThreadPool {
     public SimpleThreadPool(int numThreads) {
         for (int i = 0; i < numThreads; i++) {
             Worker worker = new Worker();
-            workers.add(worker);
             worker.start();
         }
     }
@@ -55,19 +56,17 @@ public class SimpleThreadPool {
     }
 
     /**
-     * Stops accepting new tasks and interrupts worker threads so the pool can terminate.
+     * Stops accepting new tasks and wakes idle workers. Running and queued tasks
+     * finish without being interrupted by shutdown, then workers terminate.
+     * This method does not wait for termination; repeated calls are harmless.
      */
     public void shutdown() {
-        running = false;
         lock.lock();
         try {
+            running = false;
             notEmpty.signalAll();
         } finally {
             lock.unlock();
-        }
-
-        for (Worker worker : workers) {
-            worker.interrupt();
         }
     }
 
@@ -75,7 +74,7 @@ public class SimpleThreadPool {
 
         @Override
         public void run() {
-            while (running) {
+            while (true) {
                 Runnable task;
 
                 lock.lock();

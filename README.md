@@ -24,7 +24,7 @@ mvn test
 | Example | What it demonstrates |
 | --- | --- |
 | [`boundedbuffer`](src/main/java/org/example/boundedbuffer/) | Handing off work between producers and consumers without exceeding capacity, using `ReentrantLock` and `Condition`. |
-| [`simplethreadpool`](src/main/java/org/example/simplethreadpool/) | Running submitted tasks on a reusable fixed worker set, using `ReentrantLock` and `Condition`. |
+| [`simplethreadpool`](src/main/java/org/example/simplethreadpool/) | Running tasks on reusable workers and draining accepted work during shutdown, using `ReentrantLock` and `Condition`. |
 | [`forkjoinmergesort`](src/main/java/org/example/forkjoinmergesort/) | Sorting large arrays without mutating caller input, using `ForkJoinPool` and `RecursiveAction`. |
 | [`exchangerexample`](src/main/java/org/example/exchangerexample/) | Letting two parties rendezvous and swap payloads, using `Exchanger`. |
 | [`taskscheduler`](src/main/java/org/example/taskscheduler/) | Running tasks after their scheduled delay, using `PriorityQueue`, `ReentrantLock`, and `Condition`. |
