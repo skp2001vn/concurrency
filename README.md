@@ -31,6 +31,7 @@ mvn test
 | [`simplecyclicbarrier`](src/main/java/org/example/simplecyclicbarrier/) | Holding a fixed group at a reusable checkpoint, using `ReentrantLock` and `Condition`. |
 | [`phaserexample`](src/main/java/org/example/phaserexample/) | Coordinating multi-phase work where participants can join or leave, using `Phaser`. |
 | [`simplereadwritelock`](src/main/java/org/example/simplereadwritelock/) | Protecting shared data with concurrent reads and exclusive writes, using `ReentrantLock` and `Condition`. |
+| [`configurationregistry`](src/main/java/org/example/configurationregistry/) | Reading consistent service settings while applying atomic configuration batches, using `ReentrantReadWriteLock`. |
 | [`connectionpool`](src/main/java/org/example/connectionpool/) | Sharing a limited pool of reusable connections with timeouts, using fair `ReentrantLock` and `Condition`. |
 | [`memoizer`](src/main/java/org/example/memoizer/) | Sharing expensive computed values across callers by key, using `FutureTask` and `ReentrantLock`. |
 | [`parallelreport`](src/main/java/org/example/parallelreport/) | Building a report from independent sections, using `ExecutorService`, `CountDownLatch`, and `ConcurrentHashMap`. |
